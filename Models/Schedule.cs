@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Language
+    class Schedule
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-
+        public int Day { get; set; }
+        public int StartHour { get; set; }
+        public int EndHour { get; set; }
         public List<Coach> Coaches { get; set; }
     }
 }

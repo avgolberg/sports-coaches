@@ -12,31 +12,43 @@ namespace Sports_Coaches.Models
     {
         public int Id { get; set; }
 
-        [Required, Column("Full name")]
+        [Required]
         public string FullName { get; set; }
 
         [Column(TypeName = "date")]
         public DateTime DateOfBirth { get; set; }
 
-        public string Phone { get; set; }
+        public List<Phone> Phone { get; set; }
 
         public string Email { get; set; }
+
         public string PhotoUrl { get; set; }
 
+        public Sport Sport { get; set; }
 
-        //public Person Person { get; set; }
-        //public string Holiday { get; set; }
+        public List<Language> Languages { get; set; }
 
-        
+        public List<Diploma> Diplomas { get; set; }
 
-        //public Category Category { get; set; } 
+        public List<Course> Courses { get; set; }
 
-        //public Status Status { get; set; }
-        //public string WhereToBuy { get; set; }
+        public List<Certificate> Certificates { get; set; }
 
-        //public double ApproximatePrice { get; set; }
-        //public bool GiftWrapping { get; set; }
+        public List<WorkPlace> WorkPlaces { get; set; }
 
-        //public string Comment { get; set; }
+        public int Experience { get; set; }
+
+        public Rank Rank { get; set; }
+
+        public int AwayTrainingPrice { get; set; }
+
+        public List<Training> Training { get; set; }
+
+        public List<Schedule> Schedule { get; set; }
+
+        public List<Achievement> Achievements { get; set; }
+
+        public List<Review> Reviews { get; set; }
+
     }
 }

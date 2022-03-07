@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Language
+    class Review
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public List<Coach> Coaches { get; set; }
+        public string Text { get; set; }
+        public bool Positive { get; set; }
     }
 }

@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Language
+    [Table("Training")]
+    class Training
     {
         public int Id { get; set; }
         public string Name { get; set; }
-
-        public List<Coach> Coaches { get; set; }
+        public string Time { get; set; }
+        public int Price { get; set; }
     }
 }

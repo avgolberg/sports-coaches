@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Language
+    class Phone
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-
-        public List<Coach> Coaches { get; set; }
+        public string Number { get; set; }
     }
 }
