@@ -8,6 +8,11 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
+    public enum Gender
+    {
+        Man,
+        Woman
+    }
     class Coach
     {
         public int Id { get; set; }
@@ -23,6 +28,10 @@ namespace Sports_Coaches.Models
         public string Email { get; set; }
 
         public string PhotoUrl { get; set; }
+
+        public Gender Gender { get; set; }
+
+        public City City { get; set; }
 
         public Sport Sport { get; set; }
 

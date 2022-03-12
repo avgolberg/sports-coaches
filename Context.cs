@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,8 +11,13 @@ namespace Sports_Coaches
 {
     class Context : DbContext
     {
+        public Context() : base("Context")
+        {
+            //Fill(); //at first start to fill the database
+        }
         public DbSet<Sport> Sports { get; set; }
         public DbSet<Language> Languages { get; set; }
+        public DbSet<City> Cities { get; set; }
         public DbSet<Achievement> Achievements { get; set; }
         public DbSet<Certificate> Certificates { get; set; }
         public DbSet<Coach> Coaches { get; set; }
@@ -24,5 +30,42 @@ namespace Sports_Coaches
         public DbSet<Training> Training { get; set; }
         public DbSet<WorkPlace> WorkPlaces { get; set; }
 
+        private void Fill()
+        {
+            //Sports
+            string path = "..//..//Data//Sports.txt";
+            string name;
+            using (StreamReader reader = new StreamReader(path))
+            {
+                while ((name = reader.ReadLine()) != null)
+                {
+                    Sports.Add(new Sport { Name = name });
+                }
+            }
+
+            //Languages
+            path = "..//..//Data//Languages.txt";
+            using (StreamReader reader = new StreamReader(path))
+            {
+                while ((name = reader.ReadLine()) != null)
+                {
+                    Languages.Add(new Language { Name = name });
+                }
+            }
+
+            //Cities
+            path = "..//..//Data//Cities.txt";
+            using (StreamReader reader = new StreamReader(path))
+            {
+                while ((name = reader.ReadLine()) != null)
+                {
+                    Cities.Add(new City { Name = name });
+                }
+            }
+
+
+
+            SaveChanges();
+        }
     }
 }
