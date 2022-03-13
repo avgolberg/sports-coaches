@@ -1,61 +1,61 @@
-﻿Айкідо
-Академічне веслування
-Аквааеробіка
-Акробатика
-Альпінізм
-Американський футбол
-Бадмінтон
-Балет
-Баскетбол
-Біг
-Бейсбол
-Більярд
-Бодібілдінг
-Бойове самбо
-Бокс
-Великий теніс
-Боулінг
-Велоспорт
-Верхова їзда
-Водне поло
-Волейбол
-Вільна боротьба
-Воркаут
-Вітрильний спорт
-Гандбол
-Гольф
-Гребля на байдарках
-Греко-римська боротьба
-Гірські лижі
-Дайвінг
-Джиу джитсу
-Дзюдо
-Динамічна стрільба
-Йога
-Карате
-Кунг фу
-Кікбоксинг
-Легка атлетика
-ММА
-Пілатес
-Рафтинг
-Регбі
-Рукопашний бій
-Самбо
-Синхронне плавання
-Скейтбординг
-Сноубординг
-Стретчинг
-Стрибки на батуті
-Сучасні танці
-Східні танці
-Тайський бокс
-Тхеквондо
-Ушу
-Фехтування
-Футбол
-Фігурне катання
-Фітнес
-Хокей
-Художня гімнастика
-Шахи
+﻿Айкідо|Images/Aikido.png
+Академічне веслування|Images/Rowing.png
+Аквааеробіка|Images/Aqua-aerobics.png
+Акробатика|Images/Acrobatics.png
+Альпінізм|Images/Mountaineering.png
+Американський футбол|Images/American-Football.png
+Бадмінтон|Images/Badminton.png
+Балет|Images/Ballet.png
+Баскетбол|Images/Basketball.png
+Біг|Images/Run.png
+Бейсбол|Images/Baseball.png
+Більярд|Images/Billiards.png
+Бодібілдінг|Images/Bodybuilding.png
+Бойове самбо|Images/Sambo-fights.png
+Бокс|Images/Boxing.png
+Великий теніс|Images/Tennis.png
+Боулінг|Images/Bowling.png
+Велоспорт|Images/Cycling.png
+Верхова їзда|Images/Riding.png
+Водне поло|Images/Water-polo.png
+Волейбол|Images/Volleyball.png
+Вільна боротьба|Images/Wrestling.png
+Воркаут|Images/Workout.png
+Вітрильний спорт|Images/Sailing.png
+Гандбол|Images/Handball.png
+Гольф|Images/Golf.png
+Гребля на байдарках|Images/Kayaking.png
+Греко-римська боротьба|Images/Greco-Roman-wrestling.png
+Гірські лижі|Images/Downhill-skiing.png
+Дайвінг|Images/Diving.png
+Джиу джитсу|Images/Jiu-Jitsu.png
+Дзюдо|Images/Judo.png
+Динамічна стрільба|Images/Dynamic-shooting.png
+Йога|Images/Yoga.png
+Карате|Images/Karate.png
+Кунг фу|Images/Kung-Fu.png
+Кікбоксинг|Images/Kickboxing.png
+Легка атлетика|Images/Athletics.png
+ММА|Images/MMA.png
+Пілатес|Images/Pilates.png
+Рафтинг|Images/Rafting.png
+Регбі|Images/Rugby.png
+Рукопашний бій|Images/Dogfight.png
+Самбо|Images/Sambo.png
+Синхронне плавання|Images/Synchronized-swimming.png
+Скейтбординг|Images/Skateboarding.png
+Сноубординг|Images/Snowboarding.png
+Стретчинг|Images/Stretching.png
+Стрибки на батуті|Images/Trampoline-jumping.png
+Сучасні танці|Images/Modern-dances.png
+Східні танці|Images/Eastern-dance.png
+Тайський бокс|Images/Thai-boxing.png
+Тхеквондо|Images/Taekwondo.png
+Ушу|Images/Wushu.png
+Фехтування|Images/Fencing.png
+Футбол|Images/Football.png
+Фігурне катання|Images/Figure-skating.png
+Фітнес|Images/Fitness.png
+Хокей|Images/Hockey.png
+Художня гімнастика|Images/Gymnastics.png
+Шахи|Images/Chess.png

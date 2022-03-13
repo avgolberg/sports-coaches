@@ -3,30 +3,53 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
         xmlns:local="clr-namespace:Sports_Coaches"
         mc:Ignorable="d"
-        Title="Sports Coaches" Height="450" Width="800"
+        Title="Sports Coaches"
+        Height="557.1"
+        Width="1022"
         WindowStartupLocation="CenterScreen"
         Icon="Images/logo.jpg">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"></RowDefinition>
+            <RowDefinition Height="0.4*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        
-        <StackPanel Margin="15">
-            <TextBlock Text="Знайди свого тренера вже зараз!" FontSize="23" FontWeight="Bold" TextAlignment="Center"
-                       Margin="0 0 0 20"/>
-            <TextBox Width="360" Height="40" FontSize="19" Text="Введіть назву спорту..." />
+
+        <StackPanel Margin="20">
+            <TextBlock Text="Знайди свого тренера вже зараз!"
+                       FontSize="23"
+                       TextAlignment="Center"
+                       Margin="0 15 0 20" />
+            <TextBox materialDesign:HintAssist.Hint="Введіть назву спорту..."
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                     Width="380"
+                     FontSize="15"
+                     VerticalAlignment="Center" />
         </StackPanel>
 
-        <UniformGrid Grid.Row="2"
-                     Rows="2"
-                     Columns="5">
-            
-        </UniformGrid>
+        <ScrollViewer Grid.Row="2">
+            <Grid Margin="10"
+                  Name="sportsGrid">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+
+            </Grid>
+        </ScrollViewer>
     </Grid>
 </Window>

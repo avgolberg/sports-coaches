@@ -140,6 +140,73 @@
   <ItemGroup>
     <Resource Include="Data\Sports.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Acrobatics.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Aikido.png" />
+    <Resource Include="Images\American-Football.png" />
+    <Resource Include="Images\Aqua-aerobics.png" />
+    <Resource Include="Images\Mountaineering.png" />
+    <Resource Include="Images\Rowing.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\Athletics.png" />
+    <Resource Include="Images\Badminton.png" />
+    <Resource Include="Images\Ballet.png" />
+    <Resource Include="Images\Baseball.png" />
+    <Resource Include="Images\Basketball.png" />
+    <Resource Include="Images\Billiards.png" />
+    <Resource Include="Images\Bodybuilding.png" />
+    <Resource Include="Images\Bowling.png" />
+    <Resource Include="Images\Boxing.png" />
+    <Resource Include="Images\Chess.png" />
+    <Resource Include="Images\Cycling.png" />
+    <Resource Include="Images\Diving.png" />
+    <Resource Include="Images\Dogfight.png" />
+    <Resource Include="Images\Downhill-skiing.png" />
+    <Resource Include="Images\Dynamic-shooting.png" />
+    <Resource Include="Images\Eastern-dance.png" />
+    <Resource Include="Images\Fencing.png" />
+    <Resource Include="Images\Figure-skating.png" />
+    <Resource Include="Images\Fitness.png" />
+    <Resource Include="Images\Football.png" />
+    <Resource Include="Images\Golf.png" />
+    <Resource Include="Images\Greco-Roman-wrestling.png" />
+    <Resource Include="Images\Gymnastics.png" />
+    <Resource Include="Images\Handball.png" />
+    <Resource Include="Images\Hockey.png" />
+    <Resource Include="Images\Jiu-Jitsu.png" />
+    <Resource Include="Images\Judo.png" />
+    <Resource Include="Images\Karate.png" />
+    <Resource Include="Images\Kayaking.png" />
+    <Resource Include="Images\Kickboxing.png" />
+    <Resource Include="Images\Kung-Fu.png" />
+    <Resource Include="Images\MMA.png" />
+    <Resource Include="Images\Modern-dances.png" />
+    <Resource Include="Images\Pilates.png" />
+    <Resource Include="Images\Rafting.png" />
+    <Resource Include="Images\Riding.png" />
+    <Resource Include="Images\Rugby.png" />
+    <Resource Include="Images\Run.png" />
+    <Resource Include="Images\Sailing.png" />
+    <Resource Include="Images\Sambo-fights.png" />
+    <Resource Include="Images\Sambo.png" />
+    <Resource Include="Images\Skateboarding.png" />
+    <Resource Include="Images\Snowboarding.png" />
+    <Resource Include="Images\Stretching.png" />
+    <Resource Include="Images\Synchronized-swimming.png" />
+    <Resource Include="Images\Taekwondo.png" />
+    <Resource Include="Images\Tennis.png" />
+    <Resource Include="Images\Thai-boxing.png" />
+    <Resource Include="Images\Trampoline-jumping.png" />
+    <Resource Include="Images\Volleyball.png" />
+    <Resource Include="Images\Water-polo.png" />
+    <Resource Include="Images\Workout.png" />
+    <Resource Include="Images\Wrestling.png" />
+    <Resource Include="Images\Wushu.png" />
+    <Resource Include="Images\Yoga.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

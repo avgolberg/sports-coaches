@@ -25,7 +25,8 @@ namespace Sports_Coaches
         public UserMain()
         {
             InitializeComponent();
-            //db = new Context();
+            db = new Context();
+            AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count()/5));
             //Coach coach = new Coach();
             //coach.FullName = "Віктор Коваленко";
             //coach.Gender = Gender.Man;
@@ -44,5 +45,53 @@ namespace Sports_Coaches
             //db.Coaches.Add(coach);
             //db.SaveChanges();
         }
+
+        public void AdjustRowDefinitions(int rowNumber)
+        {
+            sportsGrid.RowDefinitions.Clear();
+            for (int n = 0; n < rowNumber; n++)
+            {
+                RowDefinition rowDef = new RowDefinition();
+                rowDef.Height = new GridLength(1, GridUnitType.Star);
+                sportsGrid.RowDefinitions.Add(rowDef);
+            }
+
+            int i = 0, j = 0;
+            foreach (Sport sport in db.Sports)
+            {
+                StackPanel sp = new StackPanel();
+                sp.Cursor = Cursors.Hand;
+                sp.Margin = new Thickness(15);
+                Image img = new Image();
+                img.Stretch = Stretch.UniformToFill;
+                img.HorizontalAlignment = HorizontalAlignment.Center;
+                img.VerticalAlignment = VerticalAlignment.Center;
+                img.Source = new BitmapImage(new Uri(sport.ImageUrl, UriKind.Relative));
+                //Images/start_folder_icon.ico" sport.ImageUrl
+                TextBlock tb = new TextBlock();
+                tb.Text = sport.Name;
+                tb.FontSize = 18;
+                tb.Margin = new Thickness(0, 10, 0, 10);
+                tb.TextWrapping = TextWrapping.Wrap;
+                tb.TextAlignment = TextAlignment.Center;
+
+                sp.Children.Add(img);
+                sp.Children.Add(tb);
+
+                sportsGrid.Children.Add(sp);
+                Grid.SetColumn(sp, j);
+                Grid.SetRow(sp, i);
+
+                j++;
+                if (j == 5) 
+                { 
+                    j = 0; 
+                    i++;
+                }
+                
+                
+            }
+        }
+       
     }
 }

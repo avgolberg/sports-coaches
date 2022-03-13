@@ -39,7 +39,9 @@ namespace Sports_Coaches
             {
                 while ((name = reader.ReadLine()) != null)
                 {
-                    Sports.Add(new Sport { Name = name });
+                    string sport = name.Split('|')[0];
+                    string image = name.Split('|')[1];
+                    Sports.Add(new Sport { Name = sport, ImageUrl=image });
                 }
             }
 
