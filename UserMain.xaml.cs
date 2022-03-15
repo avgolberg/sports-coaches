@@ -1,6 +1,7 @@
 ﻿using Sports_Coaches.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -26,29 +27,13 @@ namespace Sports_Coaches
         {
             InitializeComponent();
             db = new Context();
-            AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count()/5));
-            //Coach coach = new Coach();
-            //coach.FullName = "Віктор Коваленко";
-            //coach.Gender = Gender.Man;
-            //coach.City = db.Cities.Where(c => c.Name.Equals("Одеса")).FirstOrDefault();
-            //coach.Sport = db.Sports.Where(s => s.Name.Equals("Шахи")).FirstOrDefault();
-            //coach.Languages = new List<Language>();
-            //coach.Languages.Add(db.Languages.Where(l => l.Name.Equals("Англійська")).FirstOrDefault());
-            //coach.Languages.Add(db.Languages.Where(l => l.Name.Equals("Українська")).FirstOrDefault());
-            //coach.Email = "kovalenkov@gmail.com";
-            //coach.AwayTrainingPrice = 400;
-            //coach.Experience = 19;
-            //coach.DateOfBirth = DateTime.Parse("22.01.1969");
-            //coach.Phone = new List<Phone>();
-            //coach.Phone.Add(new Phone { Number = "+38 (050) 368-38-15" });
-            //coach.Phone.Add(new Phone { Number = "+38 (067) 248-38-15" });
-            //db.Coaches.Add(coach);
-            //db.SaveChanges();
+            AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count()/5), db.Sports.OrderBy(s => s.Name));
         }
 
-        public void AdjustRowDefinitions(int rowNumber)
+        public void AdjustRowDefinitions(int rowNumber, IQueryable<Sport> sports)
         {
             sportsGrid.RowDefinitions.Clear();
+            sportsGrid.Children.Clear();
             for (int n = 0; n < rowNumber; n++)
             {
                 RowDefinition rowDef = new RowDefinition();
@@ -57,17 +42,18 @@ namespace Sports_Coaches
             }
 
             int i = 0, j = 0;
-            foreach (Sport sport in db.Sports)
+            foreach (Sport sport in sports)
             {
                 StackPanel sp = new StackPanel();
                 sp.Cursor = Cursors.Hand;
                 sp.Margin = new Thickness(15);
+
                 Image img = new Image();
                 img.Stretch = Stretch.UniformToFill;
                 img.HorizontalAlignment = HorizontalAlignment.Center;
                 img.VerticalAlignment = VerticalAlignment.Center;
                 img.Source = new BitmapImage(new Uri(sport.ImageUrl, UriKind.Relative));
-                //Images/start_folder_icon.ico" sport.ImageUrl
+
                 TextBlock tb = new TextBlock();
                 tb.Text = sport.Name;
                 tb.FontSize = 18;
@@ -88,10 +74,12 @@ namespace Sports_Coaches
                     j = 0; 
                     i++;
                 }
-                
-                
             }
         }
-       
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Where(s => s.Name.Contains(searchTB.Text)).Count() / 5), db.Sports.Where(s => s.Name.Contains(searchTB.Text)).OrderBy(s => s.Name));
+        }
     }
 }

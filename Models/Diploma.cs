@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Sports_Coaches.Models
 {
     [Table("Diplomas")]
-    class Diploma
+    public class Diploma
     {
         public int Id { get; set; }
 

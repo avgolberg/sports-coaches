@@ -32,10 +32,12 @@
                        TextAlignment="Center"
                        Margin="0 15 0 20" />
             <TextBox materialDesign:HintAssist.Hint="Введіть назву спорту..."
+                     Name="searchTB"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      Width="380"
                      FontSize="15"
-                     VerticalAlignment="Center" />
+                     VerticalAlignment="Center"
+                     TextChanged="TextBox_TextChanged" />
         </StackPanel>
 
         <ScrollViewer Grid.Row="2">

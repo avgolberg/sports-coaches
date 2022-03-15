@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Rank
+    public class Rank
     {
         public int Id { get; set; }
         public string Name { get; set; }

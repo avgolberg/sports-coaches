@@ -13,7 +13,7 @@ namespace Sports_Coaches.Models
         Man,
         Woman
     }
-    class Coach
+    public class Coach
     {
         public int Id { get; set; }
 

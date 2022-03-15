@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Schedule
+    public class Schedule
     {
         public int Id { get; set; }
         public int Day { get; set; }

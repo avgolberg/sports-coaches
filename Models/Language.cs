@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Sports_Coaches.Models
 {
-    class Language
+    public class Language
     {
         public int Id { get; set; }
         public string Name { get; set; }

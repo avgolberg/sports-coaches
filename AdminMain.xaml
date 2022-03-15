@@ -17,215 +17,42 @@
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid>
-            <TextBlock Text="Тренери"
-                       FontSize="30"
-                       FontFamily="Trebuchet MS"
-                       TextAlignment="Center"
-                       Margin="10"
-                       Padding="10" />
-            <DataGrid AutoGenerateColumns="False"
-                      CanUserAddRows="False"
-                      x:Name="coachesGrid"
-                      SelectionUnit="FullRow"
-                      Margin="0,76,-0.2,0.4"
-                      CellEditEnding="coachesGrid_CellEditEnding"
-                      PreparingCellForEdit="coachesGrid_PreparingCellForEdit">
-                <DataGrid.RowStyle>
-                    <Style TargetType="{x:Type DataGridRow}">
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver"
-                                     Value="true">
-                                <Setter Property="Background"
-                                        Value="#eee6ff" />
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </DataGrid.RowStyle>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding FullName}"
-                                        Header="ПІБ"
-                                        Width="100" />
-                    <DataGridTemplateColumn Header="Фотографія"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Source="{Binding PhotoUrl}"
-                                       Stretch="Uniform"
-                                       Width="130"
-                                       MouseDown="Image_MouseDown" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTextColumn Binding="{Binding DateOfBirth, StringFormat=\{0:dd.MM.yyyy\}}"
-                                        Header="Дата рождения"
-                                        Width="130" />
-                    <DataGridTextColumn Binding="{Binding Email}"
-                                        Header="Email"
-                                        Width="130" />
-                    <DataGridTextColumn Binding="{Binding Experience}"
-                                        Header="Досвід роботи"
-                                        Width="80" />
-                    <DataGridCheckBoxColumn Binding="{Binding AwayTrainingPrice}"
-                                            Header="Виїзне тренування"
-                                            Width="100" />
-                    <DataGridCheckBoxColumn Binding="{Binding Rank}"
-                                            Header="Розряд"
-                                            Width="100" />
-                    <DataGridTextColumn Binding="{Binding Sport}"
-                                        Header="Вид спорту"
-                                        Width="200" />
-                    <DataGridTextColumn Binding="{Binding City}"
-                                        Header="Місто"
-                                        Width="200" />
-                    <DataGridTemplateColumn Header="Досягнення"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Досягнення
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Сертифікати"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Сертифікати
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Курси"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Курси
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Дипломи"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Дипломи
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Мови"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Мови
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Телефони"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Телефони
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Відгуки"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Відгуки
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Розклад"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Розклад
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Тренування"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Тренування
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Місце роботи"
-                                            Width="SizeToCells"
-                                            IsReadOnly="True">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Style="{StaticResource MaterialDesignRaisedLightButton}"
-                                        Width="100"
-                                        ToolTip="Resource name: MaterialDesignRaisedLightButton">
-                                    Місце роботи
-                                </Button>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                </DataGrid.Columns>
-            </DataGrid>
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Bottom"
-                        Margin="20"
-                        Orientation="Horizontal">
-                <Button x:Name="updateButton"
-                        Content="Сохранить изменения"
-                        Margin="10"
-                        Click="updateButton_Click" />
-                <Button x:Name="deleteButton"
-                        Content="Удалить"
-                        Margin="10"
-                        Click="deleteButton_Click" />
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel>
+                <TextBlock Text="Система обліку даних про спортивних тренерів"
+                           FontSize="30"
+                           FontFamily="Trebuchet MS"
+                           TextAlignment="Center"
+                           Margin="20"
+                           Padding="10" />
+                <TextBox Name="searchTB"
+                         materialDesign:HintAssist.Hint="Введіть прізвище та ім'я тренера..."
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Width="380"
+                         FontSize="15"
+                         VerticalAlignment="Center"
+                         TextChanged="TextBox_TextChanged" />
             </StackPanel>
-            <Button HorizontalAlignment="Right"
+            <ScrollViewer Grid.Row="2">
+                <StackPanel Margin="10"
+                            Name="coachesSP"
+                            Width="400"
+                            HorizontalAlignment="Center">
+                </StackPanel>
+
+            </ScrollViewer>
+           
+            <Button Grid.Row="2"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Bottom"
-                    Margin="50"
+                    Margin="0 0 70 30"
                     Style="{StaticResource MaterialDesignFloatingActionLightButton}"
                     Click="Button_Click">
                 <materialDesign:PackIcon Kind="AccountPlus" />
