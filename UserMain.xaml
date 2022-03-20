@@ -13,28 +13,42 @@
         xmlns:local="clr-namespace:Sports_Coaches"
         mc:Ignorable="d"
         Title="Sports Coaches"
-        Height="557.1"
+        Height="600"
         Width="1022"
         WindowStartupLocation="CenterScreen"
         Icon="Images/logo.jpg">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="0.4*"></RowDefinition>
+            <RowDefinition Height="0.6*"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <StackPanel Margin="20">
+        <StackPanel Margin="15">
+            <StackPanel Orientation="Horizontal"
+                        Margin="10">
+                <TextBlock Text="Ваше місто:"
+                           FontSize="15"
+                           Margin="40 0 5 0"
+                           Padding="10"
+                           VerticalAlignment="Center" />
+                <ComboBox Name="citiesCB"
+                          FontSize="15"
+                          Width="150"
+                          VerticalAlignment="Center"
+                          IsEditable="True">
+                </ComboBox>
+            </StackPanel>
             <TextBlock Text="Знайди свого тренера вже зараз!"
                        FontSize="23"
                        TextAlignment="Center"
-                       Margin="0 15 0 20" />
+                       Margin="0 20 0 20" />
             <TextBox materialDesign:HintAssist.Hint="Введіть назву спорту..."
                      Name="searchTB"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Width="380"
+                     Width="340"
                      FontSize="15"
                      VerticalAlignment="Center"
                      TextChanged="TextBox_TextChanged" />
@@ -53,5 +67,22 @@
 
             </Grid>
         </ScrollViewer>
+
+        <Grid Grid.RowSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.15*"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+            </Grid.RowDefinitions>
+            <materialDesign:PackIcon Kind="ArrowLeft"
+                                     Cursor="Hand"
+                                     Margin="35,30,0,0"
+                                     Height="24"
+                                     Width="26" />
+        </Grid>
     </Grid>
+
 </Window>

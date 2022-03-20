@@ -28,6 +28,17 @@ namespace Sports_Coaches
             InitializeComponent();
             db = new Context();
             AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count()/5), db.Sports.OrderBy(s => s.Name));
+            AddCities();
+            
+        }
+
+        public void AddCities()
+        {
+            foreach (City city in db.Cities.OrderBy(c => c.Name))
+            {
+                citiesCB.Items.Add(city.Name);
+            }
+            citiesCB.SelectedItem = citiesCB.Items[0];
         }
 
         public void AdjustRowDefinitions(int rowNumber, IQueryable<Sport> sports)
