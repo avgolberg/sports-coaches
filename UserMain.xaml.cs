@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Xceed.Wpf.Toolkit;
 
 namespace Sports_Coaches
 {
@@ -29,7 +30,44 @@ namespace Sports_Coaches
             db = new Context();
             AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count()/5), db.Sports.OrderBy(s => s.Name));
             AddCities();
-            
+            AddLanguages();
+            SetSlidersStartValues();
+        }
+
+        public void SetSlidersStartValues()
+        {
+            var today = DateTime.Today;
+            var birthdate = db.Coaches.Min(c => c.DateOfBirth);
+            var age = today.Year - birthdate.Year;
+            if (birthdate.Date > today.AddYears(-age)) age--;
+
+            ageSlider.Maximum = age; 
+            ageSlider.HigherValue = age;
+
+            birthdate = db.Coaches.Max(c => c.DateOfBirth);
+            age = today.Year - birthdate.Year;
+            if (birthdate.Date > today.AddYears(-age)) age--;
+
+            ageSlider.Minimum = age;
+            ageSlider.LowerValue = age;
+
+            var experience = db.Coaches.Min(c => c.Experience);
+            experienceSlider.Minimum = experience;
+            experienceSlider.LowerValue = experience;
+
+            experience = db.Coaches.Max(c => c.Experience);
+            experienceSlider.Maximum = experience;
+            experienceSlider.HigherValue = experience;
+
+
+        }
+
+        public void AddLanguages()
+        {
+            foreach (Language language in db.Languages.OrderBy(l => l.Name))
+            {
+                languagesLB.Items.Add(language.Name);
+            }
         }
 
         public void AddCities()
@@ -91,6 +129,63 @@ namespace Sports_Coaches
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Where(s => s.Name.Contains(searchTB.Text)).Count() / 5), db.Sports.Where(s => s.Name.Contains(searchTB.Text)).OrderBy(s => s.Name));
+        }
+
+        private void slider_LowerValueChanged(object sender, RoutedEventArgs e)
+        {
+            int index = (sender as RangeSlider).Name.IndexOf('S');
+            int coma = 2;
+            if ((sender as RangeSlider).LowerValue.ToString().Length < 2) coma = 1;
+            switch ((sender as RangeSlider).Name.Substring(0, index))
+            {
+                case "age":
+                    if (ageLowerTB != null)
+                    {
+                        ageLowerTB.Text = (sender as RangeSlider).LowerValue.ToString().Substring(0, coma);
+                    }
+                    break;
+                case "experience":
+                    if (experienceLowerTB != null)
+                    {
+
+                        experienceLowerTB.Text = (sender as RangeSlider).LowerValue.ToString().Substring(0, coma);
+                    }
+                    break;
+                case "price":
+                    if (priceLowerTB != null)
+                    {
+                        priceLowerTB.Text = (sender as RangeSlider).LowerValue.ToString().Substring(0, coma);
+                    }
+                    break;
+            }
+        }
+
+        private void slider_HigherValueChanged(object sender, RoutedEventArgs e)
+        {
+            int index = (sender as RangeSlider).Name.IndexOf('S');
+            int coma = 2;
+           //if ((sender as RangeSlider).LowerValue.ToString().Length < 2) coma = 1;
+            switch ((sender as RangeSlider).Name.Substring(0, index))
+            {
+                case "age":
+                    if (ageHigherTB != null)
+                    {
+                        ageHigherTB.Text = (sender as RangeSlider).HigherValue.ToString().Substring(0, 2);
+                    }
+                    break;
+                case "experience":
+                    if (experienceHigherTB != null)
+                    {
+                        experienceHigherTB.Text = (sender as RangeSlider).HigherValue.ToString().Substring(0, 2);
+                    }
+                    break;
+                case "price":
+                    if (priceHigherTB != null)
+                    {
+                        priceHigherTB.Text = (sender as RangeSlider).HigherValue.ToString().Substring(0, 2);
+                    }
+                    break;
+            }
         }
     }
 }

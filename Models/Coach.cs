@@ -49,9 +49,8 @@ namespace Sports_Coaches.Models
 
         public Rank Rank { get; set; }
 
-        public int AwayTrainingPrice { get; set; }
-
         public List<Training> Training { get; set; }
+        public List<AwayTraining> AwayTraining { get; set; }
 
         public List<Schedule> Schedule { get; set; }
 
