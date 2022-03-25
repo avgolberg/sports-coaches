@@ -55,6 +55,16 @@ namespace Sports_Coaches
                 }
             }
 
+            //Ranks
+            path = "..//..//Data//Ranks.txt";
+            using (StreamReader reader = new StreamReader(path))
+            {
+                while ((name = reader.ReadLine()) != null)
+                {
+                    Ranks.Add(new Rank { Name = name });
+                }
+            }
+
             //Cities
             path = "..//..//Data//Cities.txt";
             using (StreamReader reader = new StreamReader(path))
@@ -64,8 +74,6 @@ namespace Sports_Coaches
                     Cities.Add(new City { Name = name });
                 }
             }
-
-
 
             SaveChanges();
         }

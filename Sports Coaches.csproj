@@ -100,6 +100,9 @@
       <DependentUpon>202203241420325_CoachUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\AwayTraining.cs" />
+    <Compile Include="ScheduleForm.xaml.cs">
+      <DependentUpon>ScheduleForm.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserMain.xaml.cs">
       <DependentUpon>UserMain.xaml</DependentUpon>
     </Compile>
@@ -119,6 +122,10 @@
       <DependentUpon>AdminMain.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="ScheduleForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UserMain.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

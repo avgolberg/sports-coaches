@@ -92,7 +92,7 @@
                     <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">15</sys:Double>
                 </ScrollViewer.Resources>
                 <StackPanel>
-                    <WrapPanel Orientation="Vertical"
+                    <StackPanel Orientation="Vertical"
                                Margin="30 10 10 10">
                         <TextBlock Text="Стать"
                                    FontSize="15"
@@ -101,8 +101,8 @@
                             <ListBoxItem Content="Чоловік" />
                             <ListBoxItem Content="Жінка" />
                         </ListBox>
-                    </WrapPanel>
-                    <WrapPanel Orientation="Vertical"
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
                                Margin="30 10 10 10">
                         <TextBlock Text="Вік"
                                    FontSize="15"
@@ -125,8 +125,8 @@
                                        FontSize="13"
                                        TextAlignment="Center" />
                         </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel Orientation="Vertical"
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
                                Margin="30 10 10 10">
                         <TextBlock Text="Вартість заняття"
                                    FontSize="15"
@@ -142,27 +142,19 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <TextBlock Name="priceLowerTB"
-                                       Text="18"
+                                       Text=""
                                        FontSize="13"
                                        TextAlignment="Center" />
                             <TextBlock Text="  -  "
                                        FontSize="13"
                                        TextAlignment="Center" />
                             <TextBlock Name="priceHigherTB"
-                                       Text="30"
+                                       Text=""
                                        FontSize="13"
                                        TextAlignment="Center" />
                         </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
-                        <TextBlock Text="Мови"
-                                   FontSize="15"
-                                   Margin="10 7 0 7" />
-                        <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}" Name="languagesLB">
-                        </ListBox>
-                    </WrapPanel>
-                    <WrapPanel Orientation="Vertical"
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
                                Margin="30 10 10 10">
                         <TextBlock Text="Досвід тренера"
                                    FontSize="15"
@@ -178,24 +170,56 @@
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <TextBlock Name="experienceLowerTB"
-                                       Text="18"
+                                       Text=""
                                        FontSize="13"
                                        TextAlignment="Center" />
                             <TextBlock Text="  -  "
                                        FontSize="13"
                                        TextAlignment="Center" />
                             <TextBlock Name="experienceHigherTB"
-                                       Text="30"
+                                       Text=""
                                        FontSize="13"
                                        TextAlignment="Center" />
                         </StackPanel>
-                    </WrapPanel>
-                    <WrapPanel Orientation="Vertical"
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
                                Margin="30 10 10 10">
-                        <CheckBox IsChecked="True">
+                        <Button Style="{StaticResource MaterialDesignFlatLightBgButton}"
+                                Name="scheduleBTN"
+                                Margin="0 0 0 15"
+                                Click="scheduleBTN_Click">
+                            Робочий графік
+                        </Button>
+                        <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                                 Name="scheduleLB"
+                                 IsEnabled="False">
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
+                               Margin="30 10 10 10">
+                        <CheckBox IsChecked="True"
+                                  Margin="10 7 0 7">
                             Виїзні тренування
                         </CheckBox>
-                    </WrapPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
+                               Margin="30 10 10 10">
+                        <TextBlock Text="Розряд"
+                                   FontSize="15"
+                                   Margin="10 7 0 7" />
+                        <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                                 Name="ranksLB">
+                        </ListBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Vertical"
+                               Margin="30 10 10 10">
+                        <TextBlock Text="Мови"
+                                   FontSize="15"
+                                   Margin="10 7 0 7" />
+                        <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                                 Name="languagesLB">
+                        </ListBox>
+                    </StackPanel>
                 </StackPanel>
             </ScrollViewer>
         </Grid>

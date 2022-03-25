@@ -23,14 +23,16 @@ namespace Sports_Coaches
     /// </summary>
     public partial class UserMain : Window
     {
-        Context db;
+        private Context db;
+        public List<Schedule> sheduleResult = new List<Schedule>();
         public UserMain()
         {
             InitializeComponent();
             db = new Context();
-            AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count()/5), db.Sports.OrderBy(s => s.Name));
+            AdjustRowDefinitions((int)Math.Ceiling((decimal)db.Sports.Count() / 5), db.Sports.OrderBy(s => s.Name));
             AddCities();
             AddLanguages();
+            AddRanks();
             SetSlidersStartValues();
         }
 
@@ -41,7 +43,7 @@ namespace Sports_Coaches
             var age = today.Year - birthdate.Year;
             if (birthdate.Date > today.AddYears(-age)) age--;
 
-            ageSlider.Maximum = age; 
+            ageSlider.Maximum = age;
             ageSlider.HigherValue = age;
 
             birthdate = db.Coaches.Max(c => c.DateOfBirth);
@@ -59,7 +61,21 @@ namespace Sports_Coaches
             experienceSlider.Maximum = experience;
             experienceSlider.HigherValue = experience;
 
+            var price = db.Training.Min(t => t.Price);
+            priceSlider.Minimum = price;
+            priceSlider.LowerValue = price;
 
+            price = db.Training.Max(t => t.Price);
+            priceSlider.Maximum = price;
+            priceSlider.HigherValue = price;
+        }
+
+        public void AddRanks()
+        {
+            foreach (Rank rank in db.Ranks)
+            {
+                ranksLB.Items.Add(rank.Name);
+            }
         }
 
         public void AddLanguages()
@@ -75,8 +91,10 @@ namespace Sports_Coaches
             foreach (City city in db.Cities.OrderBy(c => c.Name))
             {
                 citiesCB.Items.Add(city.Name);
+
+                if (city.Name.Equals("Київ"))
+                    citiesCB.SelectedItem = city.Name;
             }
-            citiesCB.SelectedItem = citiesCB.Items[0];
         }
 
         public void AdjustRowDefinitions(int rowNumber, IQueryable<Sport> sports)
@@ -118,9 +136,9 @@ namespace Sports_Coaches
                 Grid.SetRow(sp, i);
 
                 j++;
-                if (j == 5) 
-                { 
-                    j = 0; 
+                if (j == 5)
+                {
+                    j = 0;
                     i++;
                 }
             }
@@ -134,27 +152,32 @@ namespace Sports_Coaches
         private void slider_LowerValueChanged(object sender, RoutedEventArgs e)
         {
             int index = (sender as RangeSlider).Name.IndexOf('S');
-            int coma = 2;
-            if ((sender as RangeSlider).LowerValue.ToString().Length < 2) coma = 1;
+            string lowerValue = (sender as RangeSlider).LowerValue.ToString();
+            if ((sender as RangeSlider).LowerValue.ToString().Contains(','))
+            {
+                int comaIndex = (sender as RangeSlider).LowerValue.ToString().IndexOf(',');
+                lowerValue = (sender as RangeSlider).LowerValue.ToString().Substring(0, comaIndex);
+            }
+
             switch ((sender as RangeSlider).Name.Substring(0, index))
             {
                 case "age":
                     if (ageLowerTB != null)
                     {
-                        ageLowerTB.Text = (sender as RangeSlider).LowerValue.ToString().Substring(0, coma);
+                        ageLowerTB.Text = lowerValue;
                     }
                     break;
                 case "experience":
                     if (experienceLowerTB != null)
                     {
 
-                        experienceLowerTB.Text = (sender as RangeSlider).LowerValue.ToString().Substring(0, coma);
+                        experienceLowerTB.Text = lowerValue;
                     }
                     break;
                 case "price":
                     if (priceLowerTB != null)
                     {
-                        priceLowerTB.Text = (sender as RangeSlider).LowerValue.ToString().Substring(0, coma);
+                        priceLowerTB.Text = lowerValue;
                     }
                     break;
             }
@@ -163,28 +186,50 @@ namespace Sports_Coaches
         private void slider_HigherValueChanged(object sender, RoutedEventArgs e)
         {
             int index = (sender as RangeSlider).Name.IndexOf('S');
-            int coma = 2;
-           //if ((sender as RangeSlider).LowerValue.ToString().Length < 2) coma = 1;
+            string higherValue = (sender as RangeSlider).HigherValue.ToString();
+            if ((sender as RangeSlider).HigherValue.ToString().Contains(','))
+            {
+                int comaIndex = (sender as RangeSlider).HigherValue.ToString().IndexOf(',');
+                higherValue = (sender as RangeSlider).HigherValue.ToString().Substring(0, comaIndex);
+            }
             switch ((sender as RangeSlider).Name.Substring(0, index))
             {
                 case "age":
                     if (ageHigherTB != null)
                     {
-                        ageHigherTB.Text = (sender as RangeSlider).HigherValue.ToString().Substring(0, 2);
+                        ageHigherTB.Text = higherValue;
                     }
                     break;
                 case "experience":
                     if (experienceHigherTB != null)
                     {
-                        experienceHigherTB.Text = (sender as RangeSlider).HigherValue.ToString().Substring(0, 2);
+                        experienceHigherTB.Text = higherValue;
                     }
                     break;
                 case "price":
                     if (priceHigherTB != null)
                     {
-                        priceHigherTB.Text = (sender as RangeSlider).HigherValue.ToString().Substring(0, 2);
+                        priceHigherTB.Text = higherValue;
                     }
                     break;
+            }
+        }
+
+        private void scheduleBTN_Click(object sender, RoutedEventArgs e)
+        {
+            ScheduleForm scheduleForm = new ScheduleForm(sheduleResult);
+            scheduleForm.ShowDialog();
+            if (scheduleForm.DialogResult != null)
+            {
+                this.sheduleResult = scheduleForm.sheduleResult;
+                scheduleLB.Items.Clear();
+                foreach (var schedule in sheduleResult)
+                {
+                    scheduleLB.Items.Add(schedule.Day.ToString() + ":" + schedule.StartHour + ":00");
+                }
+                scheduleLB.SelectAll();
+
+
             }
         }
     }

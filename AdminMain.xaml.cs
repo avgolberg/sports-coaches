@@ -46,6 +46,15 @@ namespace Sports_Coaches
             //coach.Phone.Add(new Phone { Number = "+38 (050) 368-38-15" });
             //coach.Phone.Add(new Phone { Number = "+38 (067) 248-38-15" });
             //coach.PhotoUrl = "Images/Aikido.png";
+            //coach.Rank = db.Ranks.Where(r => r.Name.Equals("Кандидат у майстри спорту")).FirstOrDefault();
+
+            //Coach coach1 = db.Coaches.Where(c => c.FullName.Equals("Віктор Коваленко")).FirstOrDefault();
+            //coach1.Training = new List<Training>();
+            //Training training1 = new Training() { Name = "Персональне тренування (дитяче)", Price = 200, Time = "60 хв." };
+            //Training training2 = new Training() { Name = "Групове тренування (дитяче)", Price = 800, Time = "1 міс." };
+            //coach1.Training.Add(training1);
+            //coach1.Training.Add(training2);
+
             //db.Coaches.Add(coach);
             //db.SaveChanges();
 
