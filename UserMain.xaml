@@ -16,76 +16,100 @@
         TextOptions.TextRenderingMode="Auto"
         mc:Ignorable="d"
         Title="Sports Coaches"
-        Height="600"
-        Width="1022"
+        Height="700"
+        Width="1100"
         WindowStartupLocation="CenterScreen"
         Icon="Images/logo.jpg">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.6*" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-
-        <StackPanel Margin="15">
-            <StackPanel Orientation="Horizontal"
-                        Margin="10">
-                <TextBlock Text="Ваше місто:"
-                           FontSize="15"
-                           Margin="40 0 5 0"
-                           Padding="10"
-                           VerticalAlignment="Center" />
-                <ComboBox x:Name="citiesCB"
-                          FontSize="15"
-                          Width="150"
-                          VerticalAlignment="Center"
-                          IsEditable="True" />
-            </StackPanel>
-            <TextBlock Text="Знайди свого тренера вже зараз!"
-                       FontSize="23"
-                       TextAlignment="Center"
-                       Margin="0 20 0 20" />
-            <TextBox materialDesign:HintAssist.Hint="Введіть назву спорту..."
-                     x:Name="searchTB"
-                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     Width="340"
-                     FontSize="15"
-                     VerticalAlignment="Center"
-                     TextChanged="TextBox_TextChanged" />
+        <StackPanel Orientation="Horizontal"
+                    VerticalAlignment="Top"
+                    Margin="30 25 10 10">
+            <materialDesign:PackIcon Kind="ArrowLeft"
+                                     Name="backButton"
+                                     Visibility="Collapsed"
+                                     VerticalAlignment="Center"
+                                     Cursor="Hand"
+                                     Height="24"
+                                     Width="26"
+                                     PreviewMouseLeftButtonDown="backButton_PreviewMouseLeftButtonDown" />
+            <TextBlock Text="Ваше місто:"
+                       FontSize="15"
+                       Padding="10"
+                       VerticalAlignment="Center" />
+            <ComboBox x:Name="citiesCB"
+                      FontSize="15"
+                      Width="150"
+                      VerticalAlignment="Center"
+                      IsEditable="True" />
         </StackPanel>
+        <StackPanel Name="savedCoaches"
+                    Cursor="Hand"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Top"
+                    Margin="0 25 40 0">
+            <TextBlock Text="Збережені тренери"
+                       FontSize="15"
+                       Padding="10"
+                       VerticalAlignment="Center" />
+            <materialDesign:PackIcon Kind="FolderStarMultiple"
+                                     VerticalAlignment="Center"
+                                     Height="24"
+                                     Width="26" />
+        </StackPanel>
+        <Grid Name="findSportGrid"
+              Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-        <ScrollViewer Grid.Row="2" Visibility="Collapsed">
-            <Grid Margin="10"
-                  x:Name="sportsGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+            <WrapPanel Margin="20"
+                       Orientation="Vertical"
+                       HorizontalAlignment="Center">
+                <TextBlock Text="Знайди свого тренера вже зараз!"
+                           FontSize="23"
+                           TextAlignment="Center"
+                           Margin="0 20 0 20" />
+                <TextBox materialDesign:HintAssist.Hint="Введіть назву спорту..."
+                         x:Name="searchTB"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                         Width="340"
+                         FontSize="15"
+                         VerticalAlignment="Center"
+                         TextChanged="TextBox_TextChanged" />
+            </WrapPanel>
 
-            </Grid>
-        </ScrollViewer>
+            <ScrollViewer Grid.Row="2">
+                <Grid Margin="10"
+                      x:Name="sportsGrid"
+                      PreviewMouseLeftButtonDown="OnPreviewMouseLeftButtonDown">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                </Grid>
+            </ScrollViewer>
+        </Grid>
 
         <Grid Grid.RowSpan="2"
-              Visibility="Visible"
+              Visibility="Collapsed"
               x:Name="filterGrid">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.35*" />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="0.2*" />
+                <RowDefinition Height="0.15*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <materialDesign:PackIcon Kind="ArrowLeft"
-                                     Cursor="Hand"
-                                     Margin="35,30,0,0"
-                                     Height="24"
-                                     Width="26" />
             <ScrollViewer Grid.Column="0"
                           Grid.Row="1">
                 <ScrollViewer.Resources>
@@ -93,17 +117,18 @@
                 </ScrollViewer.Resources>
                 <StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <TextBlock Text="Стать"
                                    FontSize="15"
                                    Margin="10 7 0 7" />
-                        <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}">
+                        <ListBox x:Name="genderLB" Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                                 SelectionChanged="ListBox_SelectionChanged">
                             <ListBoxItem Content="Чоловік" />
                             <ListBoxItem Content="Жінка" />
                         </ListBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <TextBlock Text="Вік"
                                    FontSize="15"
                                    Margin="10 7 0 7" />
@@ -127,7 +152,7 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <TextBlock Text="Вартість заняття"
                                    FontSize="15"
                                    Margin="10 7 0 7" />
@@ -155,7 +180,7 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <TextBlock Text="Досвід тренера"
                                    FontSize="15"
                                    Margin="10 7 0 7" />
@@ -183,7 +208,7 @@
                         </StackPanel>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <Button Style="{StaticResource MaterialDesignFlatLightBgButton}"
                                 Name="scheduleBTN"
                                 Margin="0 0 0 15"
@@ -196,14 +221,14 @@
                         </ListBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <CheckBox IsChecked="True"
                                   Margin="10 7 0 7">
                             Виїзні тренування
                         </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <TextBlock Text="Розряд"
                                    FontSize="15"
                                    Margin="10 7 0 7" />
@@ -212,7 +237,7 @@
                         </ListBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
-                               Margin="30 10 10 10">
+                                Margin="30 10 10 10">
                         <TextBlock Text="Мови"
                                    FontSize="15"
                                    Margin="10 7 0 7" />
@@ -222,7 +247,13 @@
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>
+
+            <ScrollViewer Grid.Column="1"
+                          Grid.Row="1">
+                <Grid Name="coachesGrid">
+
+                </Grid>
+            </ScrollViewer>
         </Grid>
     </Grid>
-
 </Window>

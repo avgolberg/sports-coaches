@@ -10,8 +10,8 @@ namespace Sports_Coaches.Models
 {
     public enum Gender
     {
-        Man,
-        Woman
+        Чоловік,
+        Жінка
     }
     public class Coach
     {
@@ -21,6 +21,7 @@ namespace Sports_Coaches.Models
         public string FullName { get; set; }
 
         [Column(TypeName = "date")]
+        [Required]
         public DateTime DateOfBirth { get; set; }
 
         public List<Phone> Phone { get; set; }
@@ -33,6 +34,7 @@ namespace Sports_Coaches.Models
 
         public City City { get; set; }
 
+        [Required]
         public Sport Sport { get; set; }
 
         public List<Language> Languages { get; set; }
@@ -45,6 +47,7 @@ namespace Sports_Coaches.Models
 
         public List<WorkPlace> WorkPlaces { get; set; }
 
+        [Required]
         public int Experience { get; set; }
 
         public Rank Rank { get; set; }

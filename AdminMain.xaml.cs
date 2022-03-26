@@ -55,6 +55,13 @@ namespace Sports_Coaches
             //coach1.Training.Add(training1);
             //coach1.Training.Add(training2);
 
+            //Coach coach1 = db.Coaches.Where(c => c.FullName.Equals("Марія")).FirstOrDefault();
+            //coach1.WorkPlaces = new List<WorkPlace>();
+            //WorkPlace workPlace = new WorkPlace() { Name = "Спортивний клуб бойових мистецтв «Fighter»", Address = "бульв. Верховної Ради, 22" };
+            //coach1.WorkPlaces.Add(workPlace);
+
+
+
             //db.Coaches.Add(coach);
             //db.SaveChanges();
 
