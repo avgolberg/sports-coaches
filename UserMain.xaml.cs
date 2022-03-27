@@ -362,7 +362,7 @@ namespace Sports_Coaches
             TextBlock sportTB = (TextBlock)sp.Children[1];
             sportName = sportTB.Text;
 
-            AddCoaches(db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Name.Equals(sportName)));
+            AddCoaches(db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Name.Equals(sportName)).Where(c => c.City.Name.Equals(citiesCB.SelectedItem.ToString())));
 
             findSportGrid.Visibility = Visibility.Collapsed;
             sportsGrid.Visibility = Visibility.Collapsed;

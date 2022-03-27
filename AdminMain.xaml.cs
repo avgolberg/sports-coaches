@@ -72,59 +72,40 @@ namespace Sports_Coaches
         }
         public void AddCoaches(Coach coach)
         {
-            /*using (var context = new SchoolContext())
-{
-    var student = context.Students
-                        .Where(s => s.FirstName == "Bill")
-                        .FirstOrDefault<Student>();
+            StackPanel sp = new StackPanel();
+            sp.Orientation = Orientation.Horizontal;
+            sp.HorizontalAlignment = HorizontalAlignment.Left;
+            sp.Cursor = Cursors.Hand;
+            sp.Margin = new Thickness(15);
 
-    context.Entry(student).Reference(s => s.StudentAddress).Load(); // loads StudentAddress
-    context.Entry(student).Collection(s => s.StudentCourses).Load(); // loads Courses collection 
-}     
-            
-             using (var ctx = new SchoolDBEntities())
-{
-    var stud1 = ctx.Students.Include(s => s.Standard.Teachers)
-                    .Where(s => s.StudentName == "Bill")
-                    .FirstOrDefault<Student>();
-}
-            
-             */
-            
-                StackPanel sp = new StackPanel();
-                sp.Orientation = Orientation.Horizontal;
-                sp.HorizontalAlignment = HorizontalAlignment.Left;
-                sp.Cursor = Cursors.Hand;
-                sp.Margin = new Thickness(15);
+            Image img = new Image();
+            img.Width = 100;
+            img.Height = 100;
+            img.Stretch = Stretch.Uniform;
+            if (coach.PhotoUrl != null)
+                img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
+            else img.Source = new BitmapImage(new Uri("Images/logo.jpg", UriKind.Relative));
 
-                Image img = new Image();
-                img.Width = 100;
-                img.Height = 100;
-                img.Stretch = Stretch.Uniform;
-                if (coach.PhotoUrl != null)
-                    img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
-                else img.Source = new BitmapImage(new Uri("Images/logo.jpg", UriKind.Relative));
+            StackPanel innerSP = new StackPanel();
+            innerSP.VerticalAlignment = VerticalAlignment.Center;
+            innerSP.Margin = new Thickness(10, 0, 10, 0);
 
-                StackPanel innerSP = new StackPanel();
-                innerSP.VerticalAlignment = VerticalAlignment.Center;
-                innerSP.Margin = new Thickness(10, 0, 10, 0);
+            TextBlock nameTB = new TextBlock();
+            nameTB.Text = coach.FullName;
+            nameTB.FontSize = 20;
+            nameTB.Margin = new Thickness(0, 0, 0, 10);
 
-                TextBlock nameTB = new TextBlock();
-                nameTB.Text = coach.FullName;
-                nameTB.FontSize = 20;
-                nameTB.Margin = new Thickness(0, 0, 0, 10);
+            TextBlock sportTB = new TextBlock();
+            sportTB.Text = coach.Sport.Name;
+            sportTB.FontSize = 16;
 
-                TextBlock sportTB = new TextBlock();
-                sportTB.Text = coach.Sport.Name;
-                sportTB.FontSize = 16;
+            innerSP.Children.Add(nameTB);
+            innerSP.Children.Add(sportTB);
 
-                innerSP.Children.Add(nameTB);
-                innerSP.Children.Add(sportTB);
+            sp.Children.Add(img);
+            sp.Children.Add(innerSP);
 
-                sp.Children.Add(img);
-                sp.Children.Add(innerSP);
-
-                coachesSP.Children.Add(sp);
+            coachesSP.Children.Add(sp);
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -141,33 +122,33 @@ namespace Sports_Coaches
 
         }
 
-    private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-    {
-
-        if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            //Gift gift = giftsGrid.SelectedItem as Gift;
-            //Image image = sender as Image;
-            //openFileDialog = new OpenFileDialog();
-            //openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
-            //if (openFileDialog.ShowDialog() == true)
-            //{
-            //    //Реализовать копирование картинки в папу, для того, чтобы можно было не зависеть от ее местонахождения
-            //    //string destFile = System.IO.Path.Combine(targetPath, openFileDialog.FileName);
-            //    //File.Copy(openFileDialog.FileName, destFile, true);
-            //    try
-            //    {
-            //        image.Source = new BitmapImage(new Uri(OpenFileDialog.FileName));
-            //        gift.ImageUrl = openFileDialog.FileName;
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        MessageBox.Show(ex.Message);
-            //    }
 
-            //    db.SaveChanges();
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            {
+                //Gift gift = giftsGrid.SelectedItem as Gift;
+                //Image image = sender as Image;
+                //openFileDialog = new OpenFileDialog();
+                //openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
+                //if (openFileDialog.ShowDialog() == true)
+                //{
+                //    //Реализовать копирование картинки в папу, для того, чтобы можно было не зависеть от ее местонахождения
+                //    //string destFile = System.IO.Path.Combine(targetPath, openFileDialog.FileName);
+                //    //File.Copy(openFileDialog.FileName, destFile, true);
+                //    try
+                //    {
+                //        image.Source = new BitmapImage(new Uri(OpenFileDialog.FileName));
+                //        gift.ImageUrl = openFileDialog.FileName;
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        MessageBox.Show(ex.Message);
+                //    }
+
+                //    db.SaveChanges();
+            }
+
         }
-
-    }
     }
 }

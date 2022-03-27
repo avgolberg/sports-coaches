@@ -95,6 +95,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddCoach.xaml.cs">
+      <DependentUpon>AddCoach.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202203241420325_CoachUpdate.cs" />
     <Compile Include="Migrations\202203241420325_CoachUpdate.designer.cs">
       <DependentUpon>202203241420325_CoachUpdate.cs</DependentUpon>
@@ -117,6 +120,10 @@
     <Compile Include="UserSearch.xaml.cs">
       <DependentUpon>UserSearch.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddCoach.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AdminMain.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -266,6 +273,9 @@
     <Resource Include="Images\Wrestling.png" />
     <Resource Include="Images\Wushu.png" />
     <Resource Include="Images\Yoga.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\no-image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
