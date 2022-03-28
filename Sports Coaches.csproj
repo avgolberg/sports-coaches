@@ -95,8 +95,20 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddCity.xaml.cs">
+      <DependentUpon>AddCity.xaml</DependentUpon>
+    </Compile>
     <Compile Include="AddCoach.xaml.cs">
       <DependentUpon>AddCoach.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddDiplomas.xaml.cs">
+      <DependentUpon>AddDiplomas.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddLanguage.xaml.cs">
+      <DependentUpon>AddLanguage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddSport.xaml.cs">
+      <DependentUpon>AddSport.xaml</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202203241420325_CoachUpdate.cs" />
     <Compile Include="Migrations\202203241420325_CoachUpdate.designer.cs">
@@ -120,7 +132,23 @@
     <Compile Include="UserSearch.xaml.cs">
       <DependentUpon>UserSearch.xaml</DependentUpon>
     </Compile>
+    <Page Include="AddCity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AddCoach.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddDiplomas.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddLanguage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddSport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -61,6 +61,11 @@ namespace Sports_Coaches
             //coach1.WorkPlaces.Add(workPlace);
 
 
+            //Coach coach1 = db.Coaches.Where(c => c.FullName.Equals("Марія")).FirstOrDefault();
+            //coach1.Diplomas = new List<Diploma>();
+            //Diploma diploma = new Diploma() { Name = "Київський національний університет технологій та дизайну (КНУТД)" };
+            //coach1.Diplomas.Add(diploma);
+
 
             //db.Coaches.Add(coach);
             //db.SaveChanges();
