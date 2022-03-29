@@ -323,7 +323,7 @@ namespace Sports_Coaches
             {
                 this.sheduleResult = scheduleForm.sheduleResult;
                 scheduleLB.Items.Clear();
-                foreach (var schedule in sheduleResult)
+                foreach (var schedule in sheduleResult.OrderBy(s => s.Day).ThenBy(s => s.StartHour))
                 {
                     scheduleLB.Items.Add(schedule.Day.ToString() + ":" + schedule.StartHour + ":00");
                 }

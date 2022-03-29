@@ -28,6 +28,7 @@ namespace Sports_Coaches
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Schedule> Schedules { get; set; }
         public DbSet<Training> Training { get; set; }
+        public DbSet<AwayTraining> AwayTraining { get; set; }
         public DbSet<WorkPlace> WorkPlaces { get; set; }
 
         private void Fill()

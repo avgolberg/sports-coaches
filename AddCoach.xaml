@@ -26,7 +26,8 @@
         </Grid.RowDefinitions>
         <StackPanel Grid.Column="0"
                     Margin="10,10,10.4,11.2">
-            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            <TextBox Name="nameTB"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Ім'я та по-батькові *"
                      VerticalAlignment="Top"
                      FontSize="14"
@@ -42,9 +43,9 @@
             <TextBlock Text="Стать *"
                        Margin="10 10 10 5"
                        FontSize="14" />
-            <StackPanel Orientation="Horizontal">
+            <StackPanel Orientation="Horizontal" Name="genderSP">
                 <RadioButton Margin="10"
-                             Style="{StaticResource MaterialDesignRadioButton}">
+                             Style="{StaticResource MaterialDesignRadioButton}" IsChecked="True">
                     Чоловік
                 </RadioButton>
                 <RadioButton Margin="10"
@@ -52,11 +53,13 @@
                     Жінка
                 </RadioButton>
             </StackPanel>
-            <DatePicker materialDesign:HintAssist.Hint="Дата народження *"
+            <DatePicker Name="birthdateDP"
+                        materialDesign:HintAssist.Hint="Дата народження *"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         Margin="10"
                         FontSize="14" />
-            <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+            <TextBox Name="emailTB"
+                     Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="Email"
                      VerticalAlignment="Top"
                      FontSize="14"
@@ -72,9 +75,10 @@
                          FontSize="14"
                          Margin="10 10 10 5"
                          TextWrapping="Wrap" />
-                <xctk:MaskedTextBox FontSize="16"
+                <xctk:MaskedTextBox Name="phoneTB"
+                                    FontSize="16"
                                     Margin="10 5 10 5"
-                                    Mask="+38 (000) 000-0000" />
+                                    Mask="+38 (000) 000-00-00" />
                 <Button Name="phonesBTN"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 10 10 10"
@@ -127,7 +131,8 @@
                           Margin="10"
                           IsEditable="True">
                 </ComboBox>
-                <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                <TextBox Name="experienceTB"
+                         Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          materialDesign:HintAssist.Hint="Досвід (у роках) *"
                          VerticalAlignment="Top"
                          FontSize="14"
@@ -165,10 +170,25 @@
                          IsEnabled="False"
                          Margin="10 5 10 20">
                 </ListBox>
-                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                <Button Name="achievementsBTN"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати досягнення" />
+                        Content="Додати досягнення"
+                        Click="achievementsBTN_Click" />
+                <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                         Name="achievementsLB"
+                         IsEnabled="False"
+                         Margin="10 5 10 20">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </StackPanel>
         </ScrollViewer>
         <ScrollViewer Grid.Column="3">
@@ -187,22 +207,74 @@
                         FontSize="14"
                         Content="Додати місто"
                         Click="cityBTN_Click" />
-                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                <Button Name="workplaceBTN"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати місце роботи" />
-                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Content="Додати місце роботи"
+                        Click="workplaceBTN_Click" />
+                <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                         Name="workplaceLB"
+                         IsEnabled="False"
+                         Margin="10 5 10 20">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Name="trainingBTN"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати тренування" />
-                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Content="Додати тренування"
+                        Click="trainingBTN_Click" />
+                <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                         Name="trainingLB"
+                         IsEnabled="False"
+                         Margin="10 5 10 20">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Name="awayTrainingBTN"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати виїзні тренування" />
-                <Button Style="{StaticResource MaterialDesignOutlinedButton}"
+                        Content="Додати виїзні тренування"
+                        Click="awayTrainingBTN_Click" />
+                <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                         Name="awayTrainingLB"
+                         IsEnabled="False"
+                         Margin="10 5 10 20">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <TextBlock Text="{Binding}"
+                                           TextWrapping="Wrap" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Name="scheduleBTN"
+                        Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати робочий графік" />
+                        Content="Додати робочий графік"
+                        Click="scheduleBTN_Click" />
+                <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
+                         Name="scheduleLB"
+                         IsEnabled="False"
+                         Margin="10 5 10 20">
+                </ListBox>
             </StackPanel>
         </ScrollViewer>
         <Button Name="addBTN"

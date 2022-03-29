@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using UnidecodeSharpFork;
 
 namespace Sports_Coaches
 {
@@ -56,7 +57,7 @@ namespace Sports_Coaches
                 if (openFileDialog != null)
                 {
                     string filename = openFileDialog.FileName.Substring(openFileDialog.FileName.LastIndexOf('\\') + 1);
-                    string sportImage = sportTB.Text.ToLower() + filename.Substring(filename.LastIndexOf('.'));
+                    string sportImage = sportTB.Text.Unidecode() + filename.Substring(filename.LastIndexOf('.'));
                     System.IO.File.Copy(openFileDialog.FileName, "..//..//Images//" + sportImage);
                     sport.ImageUrl = "Images/" + sportImage;
                 }

@@ -124,36 +124,17 @@ namespace Sports_Coaches
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Image_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-
-            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+            AddCoach addCoachForm = new AddCoach();
+            addCoachForm.ShowDialog();
+            if (addCoachForm.DialogResult == true)
             {
-                //Gift gift = giftsGrid.SelectedItem as Gift;
-                //Image image = sender as Image;
-                //openFileDialog = new OpenFileDialog();
-                //openFileDialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg|All files (*.*)|*.*";
-                //if (openFileDialog.ShowDialog() == true)
-                //{
-                //    //Реализовать копирование картинки в папу, для того, чтобы можно было не зависеть от ее местонахождения
-                //    //string destFile = System.IO.Path.Combine(targetPath, openFileDialog.FileName);
-                //    //File.Copy(openFileDialog.FileName, destFile, true);
-                //    try
-                //    {
-                //        image.Source = new BitmapImage(new Uri(OpenFileDialog.FileName));
-                //        gift.ImageUrl = openFileDialog.FileName;
-                //    }
-                //    catch (Exception ex)
-                //    {
-                //        MessageBox.Show(ex.Message);
-                //    }
-
-                //    db.SaveChanges();
+                coachesSP.Children.Clear();
+                foreach (Coach coach in db.Coaches.Include("Sport").OrderBy(c => c.FullName))
+                {
+                    AddCoaches(coach);
+                }
             }
-
         }
+
     }
 }

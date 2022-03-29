@@ -122,7 +122,7 @@ namespace Sports_Coaches
 
             Rectangle rect = (Rectangle)GetElementInGridPosition(col, row);
             TextBlock startTime = (TextBlock)GetElementInGridPosition(0, row);
-            int startHour = int.Parse(startTime.Text.Substring(0, 2));
+            int startHour = int.Parse(startTime.Text.Substring(0, startTime.Text.IndexOf(':')));
             int endHour = startHour + 1;
 
             if (((SolidColorBrush)rect.Fill).Color == Colors.Orange)
@@ -161,6 +161,7 @@ namespace Sports_Coaches
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            this.DialogResult = true;
             Close();
         }
     }
