@@ -11,8 +11,8 @@ namespace Sports_Coaches
     /// </summary>
     public partial class AddDiplomas : Window
     {
-        private List<Diploma> diplomas;
         private Context db;
+        private List<Diploma> diplomas;
         public List<Diploma> selectedDimplomas;
         
         public AddDiplomas(List<Diploma> selectedDimplomas)

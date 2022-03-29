@@ -1,4 +1,4 @@
-﻿<Window x:Class="Sports_Coaches.AddDiplomas"
+﻿<Window xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"  x:Class="Sports_Coaches.AddPhones"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Sports_Coaches"
         mc:Ignorable="d"
-        Title="Add new diploma"
+        Title="Add new phone numbers"
         Height="300"
         Width="400"
         ResizeMode="NoResize"
@@ -15,17 +15,17 @@
     <Grid>
         <ScrollViewer>
             <StackPanel>
-                <StackPanel Name="diplomasSP"
+                <StackPanel Name="phonesSP"
                             Orientation="Vertical"
                             Margin="10">
                 </StackPanel>
-                <Button Name="addComboBox"
+                <Button Name="addTextBox"
                         Style="{StaticResource MaterialDesignFloatingActionMiniLightButton}"
                         Width="40"
                         Height="40"
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Click="addComboBox_Click">
+                        Click="addTextBox_Click">
                     <materialDesign:PackIcon Kind="Plus"
                                              Height="24"
                                              Width="24" />
@@ -34,7 +34,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 20 10 20"
                         FontSize="14"
-                        Content="Дадати дані про освіту"
+                        Content="Дадати номери телефону"
                         Click="addBTN_Click"
                         VerticalAlignment="Bottom" />
             </StackPanel>

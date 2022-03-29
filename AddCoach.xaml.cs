@@ -24,16 +24,17 @@ namespace Sports_Coaches
         private Context db;
         private OpenFileDialog openFileDialog;
         private Coach coach;
-        private List<Language> selectedLanguage;
-        public List<Diploma> selectedDimplomas = new List<Diploma>();
+        private List<Language> selectedLanguage = new List<Language>();
+        private List<Diploma> selectedDimplomas = new List<Diploma>();
+        private List<Phone> addedPhones = new List<Phone>();
+        private List<Course> selectedCourses = new List<Course>();
+        private List<Certificate> selectedCertificates = new List<Certificate>();
         public AddCoach()
         {
             InitializeComponent();
             db = new Context();
             coach = new Coach();
             coach.Id = db.Coaches.Max(c => c.Id) + 1;
-
-            selectedLanguage = new List<Language>();
 
             AddSports();
             AddLanguages();
@@ -165,9 +166,51 @@ namespace Sports_Coaches
             }
         }
 
+        private void phonesBTN_Click(object sender, RoutedEventArgs e)
+        {
+            AddPhones addPhonesForm = new AddPhones(addedPhones);
+            addPhonesForm.ShowDialog();
+            if (addPhonesForm.DialogResult == true)
+            {
+                this.addedPhones = addPhonesForm.addedPhones;
+                phonesLB.Items.Clear();
+                foreach (Phone phone in addPhonesForm.addedPhones)
+                {
+                    phonesLB.Items.Add(phone.Number);
+                }
+                phonesLB.SelectAll();
+            }
+        }
         private void coursesBTN_Click(object sender, RoutedEventArgs e)
         {
+            AddCourses addCoursesForm = new AddCourses(selectedCourses);
+            addCoursesForm.ShowDialog();
+            if (addCoursesForm.DialogResult == true)
+            {
+                this.selectedCourses = addCoursesForm.selectedCourses;
+                coursesLB.Items.Clear();
+                foreach (Course course in addCoursesForm.selectedCourses)
+                {
+                    coursesLB.Items.Add(course.Name);
+                }
+                coursesLB.SelectAll();
+            }
+        }
 
+        private void certificatesBTN_Click(object sender, RoutedEventArgs e)
+        {
+            AddCertificates addCertificatesForm = new AddCertificates(selectedCertificates);
+            addCertificatesForm.ShowDialog();
+            if (addCertificatesForm.DialogResult == true)
+            {
+                this.selectedCertificates = addCertificatesForm.selectedCertificates;
+                certificatesLB.Items.Clear();
+                foreach (Certificate certificate in addCertificatesForm.selectedCertificates)
+                {
+                    certificatesLB.Items.Add(certificate.Name);
+                }
+                certificatesLB.SelectAll();
+            }
         }
 
         private void addBTN_Click(object sender, RoutedEventArgs e)
@@ -184,5 +227,7 @@ namespace Sports_Coaches
             //    sport.ImageUrl = "Images/no-image.png";
             //}
         }
+
+       
     }
 }
