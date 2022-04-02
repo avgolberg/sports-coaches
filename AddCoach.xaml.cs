@@ -14,6 +14,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using UnidecodeSharpFork;
+using System.Data.Entity;
 
 namespace Sports_Coaches
 {
@@ -24,7 +25,6 @@ namespace Sports_Coaches
     {
         private Context db;
         private OpenFileDialog openFileDialog;
-        private Coach coach;
         private List<Language> selectedLanguage = new List<Language>();
         private List<Diploma> selectedDimplomas = new List<Diploma>();
         private List<Phone> addedPhones = new List<Phone>();
@@ -35,17 +35,83 @@ namespace Sports_Coaches
         private List<AwayTraining> selectedAwayTraining = new List<AwayTraining>();
         private List<Achievement> addedAchievement = new List<Achievement>();
         private List<WorkPlace> addedWorkplaces = new List<WorkPlace>();
-        public AddCoach()
+        private Coach coachToEdit;
+        private bool addSelectedLanguages = false;
+        private bool isEditForm = false;
+        public AddCoach(Coach coach = null)
         {
             InitializeComponent();
             db = new Context();
-            coach = new Coach();
-            coach.Id = db.Coaches.Max(c => c.Id) + 1;
 
             AddSports();
             AddLanguages();
             AddCities();
             AddRanks();
+
+            if (coach != null)
+            {
+                coachToEdit = coach;
+                isEditForm = true;
+                EditCoach(coachToEdit);
+            }
+        }
+
+        private void EditCoach(Coach coach)
+        {
+            nameTB.Text = coach.FullName;
+            if (coach.Gender == 0) (genderSP.Children[0] as RadioButton).IsChecked = true;
+            else (genderSP.Children[1] as RadioButton).IsChecked = true;
+            birthdateDP.SelectedDate = coach.DateOfBirth;
+
+            if (coach.PhotoUrl != null && !coach.PhotoUrl.StartsWith("pack"))
+                coachImage.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
+            else if (coach.PhotoUrl != null && coach.PhotoUrl.StartsWith("pack")) coachImage.Source = new BitmapImage(new Uri(coach.PhotoUrl));
+
+            if (coach.Email != null)
+                emailTB.Text = coach.Email;
+
+            phoneTB.Text = coach.Phone.Last().Number;
+            coach.Phone.Remove(coach.Phone.Last());
+            addedPhones = coach.Phone.ToList();
+            AddSelectedPhones();
+
+            selectedLanguage = coach.Languages.ToList();
+            AddSelectedLanguages();
+
+            sportCB.SelectedItem = db.Sports.Where(s => s.Name.Equals(coach.Sport.Name)).First();
+
+            rankCB.SelectedItem = db.Ranks.Where(r => r.Name.Equals(coach.Rank.Name)).First();
+
+            cityCB.SelectedItem = db.Cities.Where(c => c.Name.Equals(coach.City.Name)).First();
+
+            experienceTB.Text = coach.Experience.ToString();
+
+            selectedDimplomas = coach.Diplomas.ToList();
+            AddSelectedDiplomas();
+
+            selectedCourses = coach.Courses.ToList();
+            AddSelectedCourses();
+
+            selectedCertificates = coach.Certificates.ToList();
+            AddSelectedCertificates();
+
+            addedAchievement = coach.Achievements.ToList();
+            AddSelectedAchievements();
+
+            addedWorkplaces = db.Coaches.Include(c => c.WorkPlaces.Select(w => w.City)).Where(c => c.Id.Equals(coach.Id)).First().WorkPlaces.ToList();
+            AddSelectedWorkPlaces();
+
+            selectedTraining = coach.Training.ToList();
+            AddSelectedTraining();
+
+            selectedAwayTraining = coach.AwayTraining.ToList();
+            AddSelectedAwayTraining();
+
+            sheduleResult = coach.Schedule.ToList();
+            AddSelectedSchedule();
+
+            addBTN.Content = "Зберегти";
+
         }
 
         private void AddLanguages()
@@ -70,6 +136,95 @@ namespace Sports_Coaches
         {
             rankCB.ItemsSource = db.Ranks.OrderBy(r => r.Name).ToList();
             rankCB.DisplayMemberPath = "Name";
+        }
+
+        private void AddSelectedDiplomas()
+        {
+            diplomasLB.ItemsSource = selectedDimplomas.ToList();
+            diplomasLB.DisplayMemberPath = "Name";
+            diplomasLB.SelectAll();
+        }
+
+        private void AddSelectedCourses()
+        {
+            coursesLB.ItemsSource = selectedCourses.ToList();
+            coursesLB.DisplayMemberPath = "Name";
+            coursesLB.SelectAll();
+        }
+
+        private void AddSelectedCertificates()
+        {
+            certificatesLB.ItemsSource = selectedCertificates.ToList();
+            certificatesLB.DisplayMemberPath = "Name";
+            certificatesLB.SelectAll();
+        }
+
+        private void AddSelectedSchedule()
+        {
+            scheduleLB.Items.Clear();
+            foreach (var schedule in sheduleResult.OrderBy(s => s.Day).ThenBy(s => s.StartHour))
+            {
+                scheduleLB.Items.Add(schedule.Day.ToString() + ":" + schedule.StartHour + ":00");
+            }
+            scheduleLB.SelectAll();
+        }
+
+        private void AddSelectedTraining()
+        {
+            trainingLB.Items.Clear();
+            foreach (Training training in selectedTraining)
+            {
+                trainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " грн.");
+            }
+            trainingLB.SelectAll();
+        }
+
+        private void AddSelectedAwayTraining()
+        {
+            awayTrainingLB.Items.Clear();
+            foreach (AwayTraining training in selectedAwayTraining)
+            {
+                awayTrainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " грн.");
+            }
+            awayTrainingLB.SelectAll();
+        }
+
+        private void AddSelectedWorkPlaces()
+        {
+            workplaceLB.Items.Clear();
+            foreach (WorkPlace workPlace in addedWorkplaces)
+            {
+                workplaceLB.Items.Add(workPlace.Name);
+            }
+            workplaceLB.SelectAll();
+        }
+
+        private void AddSelectedAchievements()
+        {
+            achievementsLB.Items.Clear();
+            foreach (Achievement achievement in addedAchievement)
+            {
+                achievementsLB.Items.Add(achievement.Name + " - " + achievement.Place + " | " + achievement.Status);
+            }
+            achievementsLB.SelectAll();
+        }
+
+        private void AddSelectedPhones()
+        {
+            phonesLB.ItemsSource = addedPhones.ToList();
+            phonesLB.DisplayMemberPath = "Number";
+            phonesLB.SelectAll();
+        }
+
+        private void AddSelectedLanguages()
+        {
+            addSelectedLanguages = true;
+            languagesLB.SelectedItems.Clear();
+            foreach (Language language in selectedLanguage)
+            {
+                languagesLB.SelectedItems.Add(db.Languages.Where(l => l.Name.Equals(language.Name)).First());
+            }
+            addSelectedLanguages = false;
         }
 
         private void coachImage_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -105,7 +260,8 @@ namespace Sports_Coaches
 
         private void languagesLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            selectedLanguage.Add(e.AddedItems[0] as Language);
+            if (!addSelectedLanguages)
+                selectedLanguage.Add(e.AddedItems[0] as Language);
         }
 
         private void sportBTN_Click(object sender, RoutedEventArgs e)
@@ -137,12 +293,7 @@ namespace Sports_Coaches
             if (addDiplomasForm.DialogResult == true)
             {
                 this.selectedDimplomas = addDiplomasForm.selectedDimplomas;
-                diplomasLB.Items.Clear();
-                foreach (Diploma diploma in addDiplomasForm.selectedDimplomas)
-                {
-                    diplomasLB.Items.Add(diploma.Name);
-                }
-                diplomasLB.SelectAll();
+                AddSelectedDiplomas();
             }
         }
 
@@ -153,12 +304,7 @@ namespace Sports_Coaches
             if (addPhonesForm.DialogResult == true)
             {
                 this.addedPhones = addPhonesForm.addedPhones;
-                phonesLB.Items.Clear();
-                foreach (Phone phone in addPhonesForm.addedPhones)
-                {
-                    phonesLB.Items.Add(phone.Number);
-                }
-                phonesLB.SelectAll();
+                AddSelectedPhones();
             }
         }
         private void coursesBTN_Click(object sender, RoutedEventArgs e)
@@ -168,12 +314,7 @@ namespace Sports_Coaches
             if (addCoursesForm.DialogResult == true)
             {
                 this.selectedCourses = addCoursesForm.selectedCourses;
-                coursesLB.Items.Clear();
-                foreach (Course course in addCoursesForm.selectedCourses)
-                {
-                    coursesLB.Items.Add(course.Name);
-                }
-                coursesLB.SelectAll();
+                AddSelectedCourses();
             }
         }
 
@@ -184,12 +325,7 @@ namespace Sports_Coaches
             if (addCertificatesForm.DialogResult == true)
             {
                 this.selectedCertificates = addCertificatesForm.selectedCertificates;
-                certificatesLB.Items.Clear();
-                foreach (Certificate certificate in addCertificatesForm.selectedCertificates)
-                {
-                    certificatesLB.Items.Add(certificate.Name);
-                }
-                certificatesLB.SelectAll();
+                AddSelectedCertificates();
             }
         }
         private void scheduleBTN_Click(object sender, RoutedEventArgs e)
@@ -199,12 +335,7 @@ namespace Sports_Coaches
             if (scheduleForm.DialogResult == true)
             {
                 this.sheduleResult = scheduleForm.sheduleResult;
-                scheduleLB.Items.Clear();
-                foreach (var schedule in sheduleResult.OrderBy(s => s.Day).ThenBy(s => s.StartHour))
-                {
-                    scheduleLB.Items.Add(schedule.Day.ToString() + ":" + schedule.StartHour + ":00");
-                }
-                scheduleLB.SelectAll();
+                AddSelectedSchedule();
             }
         }
 
@@ -215,12 +346,7 @@ namespace Sports_Coaches
             if (addTrainingForm.DialogResult == true)
             {
                 this.selectedTraining = addTrainingForm.selectedTraining;
-                trainingLB.Items.Clear();
-                foreach (Training training in selectedTraining)
-                {
-                    trainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " грн.");
-                }
-                trainingLB.SelectAll();
+                AddSelectedTraining();
             }
         }
 
@@ -231,12 +357,7 @@ namespace Sports_Coaches
             if (addAwayTrainingForm.DialogResult == true)
             {
                 this.selectedAwayTraining = addAwayTrainingForm.selectedAwayTraining;
-                awayTrainingLB.Items.Clear();
-                foreach (AwayTraining training in selectedAwayTraining)
-                {
-                    awayTrainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " грн.");
-                }
-                awayTrainingLB.SelectAll();
+                AddSelectedAwayTraining();
             }
         }
 
@@ -247,12 +368,7 @@ namespace Sports_Coaches
             if (addAchievementsForm.DialogResult == true)
             {
                 this.addedAchievement = addAchievementsForm.addedAchievement;
-                achievementsLB.Items.Clear();
-                foreach (Achievement achievement in addedAchievement)
-                {
-                    achievementsLB.Items.Add(achievement.Name + " - " + achievement.Place + " | " + achievement.Status);
-                }
-                achievementsLB.SelectAll();
+                AddSelectedAchievements();
             }
         }
 
@@ -263,12 +379,7 @@ namespace Sports_Coaches
             if (addWorkPlacesForm.DialogResult == true)
             {
                 this.addedWorkplaces = addWorkPlacesForm.addedWorkplaces;
-                workplaceLB.Items.Clear();
-                foreach (WorkPlace workPlace in addedWorkplaces)
-                {
-                    workplaceLB.Items.Add(workPlace.Name);
-                }
-                workplaceLB.SelectAll();
+                AddSelectedWorkPlaces();
             }
         }
 
@@ -298,6 +409,7 @@ namespace Sports_Coaches
             string email = emailTB.Text;
 
             Phone phone = new Phone { Number = phoneTB.Text };
+            addedPhones.Add(phone);
 
             Sport sport = sportCB.SelectedItem as Sport;
 
@@ -315,10 +427,34 @@ namespace Sports_Coaches
 
             if (fullName.Length > 0 && birthday != null && phone.Number.Length > 0 && selectedLanguage.Count > 0 && sport != null && experience != 0 && city.Name.Length > 0 && selectedTraining.Count > 0)
             {
-                addedPhones.Add(phone);
+                if (!isEditForm)
+                {
+                    Coach coach = new Coach() { FullName = fullName, Gender = gender, DateOfBirth = (DateTime)birthday, PhotoUrl = imageUrl, Email = email, Phone = addedPhones, Languages = selectedLanguage, Sport = sport, Rank = rank, Experience = experience, Diplomas = selectedDimplomas, Courses = selectedCourses, Certificates = selectedCertificates, Achievements = addedAchievement, City = city, WorkPlaces = addedWorkplaces, Training = selectedTraining, AwayTraining = selectedAwayTraining, Schedule = sheduleResult };
+                    db.Coaches.Add(coach);
+                }
+                else
+                {
+                    coachToEdit.FullName = fullName;
+                    coachToEdit.Gender = gender;
+                    coachToEdit.DateOfBirth = (DateTime)birthday;
+                    coachToEdit.PhotoUrl = coachImage.Source.ToString();
+                    coachToEdit.Email = email;
+                    coachToEdit.Phone = addedPhones;
+                    coachToEdit.Courses = selectedCourses;
+                    coachToEdit.Sport = sport;
+                    coachToEdit.Rank = rank;
+                    coachToEdit.Experience = experience;
+                    coachToEdit.Diplomas = selectedDimplomas;
+                    coachToEdit.Courses = selectedCourses;
+                    coachToEdit.Certificates = selectedCertificates;
+                    coachToEdit.Achievements = addedAchievement;
+                    coachToEdit.City = city;
+                    coachToEdit.WorkPlaces = addedWorkplaces;
+                    coachToEdit.Training = selectedTraining;
+                    coachToEdit.AwayTraining = selectedAwayTraining;
+                    coachToEdit.Schedule = sheduleResult;
+                }
 
-                Coach coach = new Coach() { FullName=fullName, Gender=gender, DateOfBirth=(DateTime)birthday, PhotoUrl=imageUrl, Email=email, Phone= addedPhones, Languages=selectedLanguage, Sport=sport, Rank=rank, Experience=experience, Diplomas=selectedDimplomas, Courses= selectedCourses, Certificates=selectedCertificates, Achievements=addedAchievement, City=city, WorkPlaces=addedWorkplaces, Training= selectedTraining, AwayTraining=selectedAwayTraining, Schedule=sheduleResult };
-                db.Coaches.Add(coach);
                 db.SaveChanges();
                 this.DialogResult = true;
                 Close();

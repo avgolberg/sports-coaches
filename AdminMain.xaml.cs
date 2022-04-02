@@ -1,18 +1,11 @@
-﻿using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using Sports_Coaches.Models;
 
 namespace Sports_Coaches
@@ -29,97 +22,65 @@ namespace Sports_Coaches
             InitializeComponent();
 
             db = new Context();
-
-            //Coach coach = new Coach();
-            //coach.FullName = "Віктор Коваленко";
-            //coach.Gender = Gender.Man;
-            //coach.City = db.Cities.Where(c => c.Name.Equals("Одеса")).FirstOrDefault();
-            //coach.Sport = db.Sports.Where(s => s.Name.Equals("Шахи")).FirstOrDefault();
-            //coach.Languages = new List<Language>();
-            //coach.Languages.Add(db.Languages.Where(l => l.Name.Equals("Англійська")).FirstOrDefault());
-            //coach.Languages.Add(db.Languages.Where(l => l.Name.Equals("Українська")).FirstOrDefault());
-            //coach.Email = "kovalenkov@gmail.com";
-            //coach.AwayTrainingPrice = 400;
-            //coach.Experience = 19;
-            //coach.DateOfBirth = DateTime.Parse("22.01.1969");
-            //coach.Phone = new List<Phone>();
-            //coach.Phone.Add(new Phone { Number = "+38 (050) 368-38-15" });
-            //coach.Phone.Add(new Phone { Number = "+38 (067) 248-38-15" });
-            //coach.PhotoUrl = "Images/Aikido.png";
-            //coach.Rank = db.Ranks.Where(r => r.Name.Equals("Кандидат у майстри спорту")).FirstOrDefault();
-
-            //Coach coach1 = db.Coaches.Where(c => c.FullName.Equals("Віктор Коваленко")).FirstOrDefault();
-            //coach1.Training = new List<Training>();
-            //Training training1 = new Training() { Name = "Персональне тренування (дитяче)", Price = 200, Time = "60 хв." };
-            //Training training2 = new Training() { Name = "Групове тренування (дитяче)", Price = 800, Time = "1 міс." };
-            //coach1.Training.Add(training1);
-            //coach1.Training.Add(training2);
-
-            //Coach coach1 = db.Coaches.Where(c => c.FullName.Equals("Марія")).FirstOrDefault();
-            //coach1.WorkPlaces = new List<WorkPlace>();
-            //WorkPlace workPlace = new WorkPlace() { Name = "Спортивний клуб бойових мистецтв «Fighter»", Address = "бульв. Верховної Ради, 22" };
-            //coach1.WorkPlaces.Add(workPlace);
-
-
-            //Coach coach1 = db.Coaches.Where(c => c.FullName.Equals("Марія")).FirstOrDefault();
-            //coach1.Diplomas = new List<Diploma>();
-            //Diploma diploma = new Diploma() { Name = "Київський національний університет технологій та дизайну (КНУТД)" };
-            //coach1.Diplomas.Add(diploma);
-
-
-            //db.Coaches.Add(coach);
-            //db.SaveChanges();
-
-            foreach (Coach coach in db.Coaches.Include("Sport").OrderBy(c => c.FullName))
-            {
-                AddCoaches(coach);
-            }
+            AddCoaches(db.Coaches.Include("Sport").OrderBy(c => c.FullName));
         }
-        public void AddCoaches(Coach coach)
+        public void AddCoaches(IQueryable<Coach> coaches)
         {
-            StackPanel sp = new StackPanel();
-            sp.Orientation = Orientation.Horizontal;
-            sp.HorizontalAlignment = HorizontalAlignment.Left;
-            sp.Cursor = Cursors.Hand;
-            sp.Margin = new Thickness(15);
+            coachesGrid.Children.Clear();
+            coachesGrid.RowDefinitions.Clear();
+            for (int n = 0; n < coaches.Count(); n++)
+            {
+                RowDefinition rowDef = new RowDefinition();
+                rowDef.Height = new GridLength(1, GridUnitType.Star);
+                coachesGrid.RowDefinitions.Add(rowDef);
+            }
+            int i = 0;
+            foreach (Coach coach in coaches)
+            {
+                StackPanel sp = new StackPanel();
+                sp.Orientation = Orientation.Horizontal;
+                sp.HorizontalAlignment = HorizontalAlignment.Left;
+                sp.Cursor = Cursors.Hand;
+                sp.Margin = new Thickness(15);
 
-            Image img = new Image();
-            img.Width = 100;
-            img.Height = 100;
-            img.Stretch = Stretch.Uniform;
-            if (coach.PhotoUrl != null)
-                img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
-            else img.Source = new BitmapImage(new Uri("Images/logo.jpg", UriKind.Relative));
+                Image img = new Image();
+                img.Width = 100;
+                img.Height = 100;
+                img.Stretch = Stretch.Uniform;
+                if (coach.PhotoUrl != null && !coach.PhotoUrl.StartsWith("pack"))
+                    img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
+                else if(coach.PhotoUrl != null && coach.PhotoUrl.StartsWith("pack")) img.Source = new BitmapImage(new Uri(coach.PhotoUrl));
+                else img.Source = new BitmapImage(new Uri("Images/logo.jpg", UriKind.Relative));
 
-            StackPanel innerSP = new StackPanel();
-            innerSP.VerticalAlignment = VerticalAlignment.Center;
-            innerSP.Margin = new Thickness(10, 0, 10, 0);
+                StackPanel innerSP = new StackPanel();
+                innerSP.VerticalAlignment = VerticalAlignment.Center;
+                innerSP.Margin = new Thickness(10, 0, 10, 0);
 
-            TextBlock nameTB = new TextBlock();
-            nameTB.Text = coach.FullName;
-            nameTB.FontSize = 20;
-            nameTB.Margin = new Thickness(0, 0, 0, 10);
+                TextBlock nameTB = new TextBlock();
+                nameTB.Text = coach.FullName;
+                nameTB.FontSize = 20;
+                nameTB.Margin = new Thickness(0, 0, 0, 10);
 
-            TextBlock sportTB = new TextBlock();
-            sportTB.Text = coach.Sport.Name;
-            sportTB.FontSize = 16;
+                TextBlock sportTB = new TextBlock();
+                sportTB.Text = coach.Sport.Name;
+                sportTB.FontSize = 16;
 
-            innerSP.Children.Add(nameTB);
-            innerSP.Children.Add(sportTB);
+                innerSP.Children.Add(nameTB);
+                innerSP.Children.Add(sportTB);
 
-            sp.Children.Add(img);
-            sp.Children.Add(innerSP);
+                sp.Children.Add(img);
+                sp.Children.Add(innerSP);
 
-            coachesSP.Children.Add(sp);
+                coachesGrid.Children.Add(sp);
+                Grid.SetRow(sp, i);
+                i++;
+            }            
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            coachesSP.Children.Clear();
-            foreach (Coach coach in db.Coaches.Include("Sport").Where(c => c.FullName.Contains(searchTB.Text)).OrderBy(c => c.FullName))
-            {
-                AddCoaches(coach);
-            }
+            
+            AddCoaches(db.Coaches.Include("Sport").Where(c => c.FullName.Contains(searchTB.Text)).OrderBy(c => c.FullName));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -128,12 +89,55 @@ namespace Sports_Coaches
             addCoachForm.ShowDialog();
             if (addCoachForm.DialogResult == true)
             {
-                coachesSP.Children.Clear();
-                foreach (Coach coach in db.Coaches.Include("Sport").OrderBy(c => c.FullName))
-                {
-                    AddCoaches(coach);
-                }
+                AddCoaches(db.Coaches.Include("Sport").OrderBy(c => c.FullName));
             }
+        }
+
+        private void OnPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var point = Mouse.GetPosition(coachesGrid);
+
+            int row = 0;
+            int col = 0;
+            double accumulatedHeight = 0.0;
+            double accumulatedWidth = 0.0;
+
+            // calc row mouse was over
+            foreach (var rowDefinition in coachesGrid.RowDefinitions)
+            {
+                accumulatedHeight += rowDefinition.ActualHeight;
+                if (accumulatedHeight >= point.Y)
+                    break;
+                row++;
+            }
+
+            // calc col mouse was over
+            foreach (var columnDefinition in coachesGrid.ColumnDefinitions)
+            {
+                accumulatedWidth += columnDefinition.ActualWidth;
+                if (accumulatedWidth >= point.X)
+                    break;
+                col++;
+            }
+
+            StackPanel sp = (StackPanel)GetElementInGridPosition(col, row);
+            StackPanel innerSP = (StackPanel)sp.Children[1];
+            TextBlock nameTB = (TextBlock)innerSP.Children[0];
+            AddCoach addCoachForm = new AddCoach(db.Coaches.Include("Sport").Include("City").Include("WorkPlaces").Include("Training").Include("Phone").Include("Languages").Include("City").Include("Diplomas").Include("Courses").Include("Certificates").Include("Certificates").Include("Rank").Include("Training").Include("AwayTraining").Include("Schedule").Include("Achievements").Where(c => c.FullName.Equals(nameTB.Text)).First());
+            addCoachForm.ShowDialog();
+            if(addCoachForm.DialogResult==true)
+                AddCoaches(db.Coaches.Include("Sport").OrderBy(c => c.FullName));
+        }
+
+        private UIElement GetElementInGridPosition(int column, int row)
+        {
+            foreach (UIElement element in this.coachesGrid.Children)
+            {
+                if (Grid.GetColumn(element) == column && Grid.GetRow(element) == row)
+                    return element;
+            }
+
+            return null;
         }
 
     }
