@@ -91,7 +91,7 @@
                          Margin="10 5 10 20">
                 </ListBox>
                 <StackPanel>
-                    <TextBlock Text="Мови"
+                    <TextBlock Text="Мови *"
                                FontSize="14"
                                Margin="10" />
                     <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
@@ -230,7 +230,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати тренування"
+                        Content="Додати тренування *"
                         Click="trainingBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="trainingLB"
@@ -277,15 +277,25 @@
                 </ListBox>
             </StackPanel>
         </ScrollViewer>
-        <Button Name="addBTN"
-                Grid.ColumnSpan="2"
-                Grid.Row="1"
-                Style="{StaticResource MaterialDesignOutlinedButton}"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Center"
-                Content="Зберегти"
-                Click="addBTN_Click"
-                Grid.Column="1"
-                Width="91" />
+        <StackPanel Orientation="Horizontal"
+                    Grid.ColumnSpan="2"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+            <Button Name="delBTN"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Content="Видалити"
+                    Click="delBTN_Click"
+                    Width="100" 
+                    Margin="10"
+                    Visibility="Collapsed"/>
+            <Button Name="addBTN"
+                    Style="{StaticResource MaterialDesignOutlinedButton}"
+                    Content="Зберегти"
+                    Click="addBTN_Click"
+                    Width="91"
+                    Margin="10" />
+        </StackPanel>
     </Grid>
 </Window>

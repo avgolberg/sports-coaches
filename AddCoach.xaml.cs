@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using UnidecodeSharpFork;
 using System.Data.Entity;
+using System.IO;
 
 namespace Sports_Coaches
 {
@@ -38,7 +39,7 @@ namespace Sports_Coaches
         private Coach coachToEdit;
         private bool addSelectedLanguages = false;
         private bool isEditForm = false;
-        public AddCoach(Coach coach = null)
+        public AddCoach(int? coachId = null)
         {
             InitializeComponent();
             db = new Context();
@@ -48,10 +49,11 @@ namespace Sports_Coaches
             AddCities();
             AddRanks();
 
-            if (coach != null)
+            if (coachId != null)
             {
-                coachToEdit = coach;
+                coachToEdit = db.Coaches.Include("Sport").Include("City").Include("WorkPlaces").Include("Training").Include("Phone").Include("Languages").Include("City").Include("Diplomas").Include("Courses").Include("Certificates").Include("Certificates").Include("Rank").Include("Training").Include("AwayTraining").Include("Schedule").Include("Achievements").Where(c => c.Id.Equals((int)coachId)).First(); ;
                 isEditForm = true;
+                delBTN.Visibility = Visibility.Visible;
                 EditCoach(coachToEdit);
             }
         }
@@ -70,19 +72,43 @@ namespace Sports_Coaches
             if (coach.Email != null)
                 emailTB.Text = coach.Email;
 
-            phoneTB.Text = coach.Phone.Last().Number;
-            coach.Phone.Remove(coach.Phone.Last());
-            addedPhones = coach.Phone.ToList();
-            AddSelectedPhones();
+            if (coach.Phone != null && coach.Phone.Count > 0)
+            {
+                phoneTB.Text = coach.Phone.Last().Number;
+                coach.Phone.Remove(coach.Phone.Last());
+                addedPhones = coach.Phone.ToList();
+                AddSelectedPhones();
+            }
 
             selectedLanguage = coach.Languages.ToList();
             AddSelectedLanguages();
 
-            sportCB.SelectedItem = db.Sports.Where(s => s.Name.Equals(coach.Sport.Name)).First();
+            foreach (Sport sport in sportCB.Items)
+            {
+                if (sport.Id.Equals(coach.Sport.Id))
+                {
+                    sportCB.SelectedItem = sport;
+                }
+            }
 
-            rankCB.SelectedItem = db.Ranks.Where(r => r.Name.Equals(coach.Rank.Name)).First();
+            if (coach.Rank != null)
+            {
+                foreach (Rank rank in rankCB.Items)
+                {
+                    if (rank.Id.Equals(coach.Rank.Id))
+                    {
+                        rankCB.SelectedItem = rank;
+                    }
+                }
+            }
 
-            cityCB.SelectedItem = db.Cities.Where(c => c.Name.Equals(coach.City.Name)).First();
+            foreach (City city in cityCB.Items)
+            {
+                if (city.Id.Equals(coach.City.Id))
+                {
+                    cityCB.SelectedItem = city;
+                }
+            }
 
             experienceTB.Text = coach.Experience.ToString();
 
@@ -222,7 +248,7 @@ namespace Sports_Coaches
             languagesLB.SelectedItems.Clear();
             foreach (Language language in selectedLanguage)
             {
-                languagesLB.SelectedItems.Add(db.Languages.Where(l => l.Name.Equals(language.Name)).First());
+                languagesLB.SelectedItems.Add(db.Languages.Where(l => l.Id.Equals(language.Id)).First());
             }
             addSelectedLanguages = false;
         }
@@ -242,7 +268,6 @@ namespace Sports_Coaches
                 {
                     MessageBox.Show(ex.Message);
                 }
-                //System.IO.File.Copy(openFileDialog.FileName, "..//..//Images//coach_" + coach.Id + "_" + filename.Substring(filename.LastIndexOf('.')));
 
             }
         }
@@ -398,9 +423,9 @@ namespace Sports_Coaches
             {
                 string filename = openFileDialog.FileName.Substring(openFileDialog.FileName.LastIndexOf('\\') + 1);
                 string coachImage = fullName.Split(' ')[1].Unidecode() + filename.Substring(filename.LastIndexOf('.'));
-                System.IO.File.Copy(openFileDialog.FileName, "..//..//Images//" + coachImage);
-                imageUrl = "Images/" + coachImage;
-            }
+                File.Copy(openFileDialog.FileName,  "..//..//Images//" + coachImage, true);
+                imageUrl = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, "Images\\" + coachImage);
+            }            
             else
             {
                 imageUrl = "Images/no-image.png";
@@ -434,25 +459,26 @@ namespace Sports_Coaches
                 }
                 else
                 {
-                    coachToEdit.FullName = fullName;
-                    coachToEdit.Gender = gender;
-                    coachToEdit.DateOfBirth = (DateTime)birthday;
-                    coachToEdit.PhotoUrl = coachImage.Source.ToString();
-                    coachToEdit.Email = email;
-                    coachToEdit.Phone = addedPhones;
-                    coachToEdit.Courses = selectedCourses;
-                    coachToEdit.Sport = sport;
-                    coachToEdit.Rank = rank;
-                    coachToEdit.Experience = experience;
-                    coachToEdit.Diplomas = selectedDimplomas;
-                    coachToEdit.Courses = selectedCourses;
-                    coachToEdit.Certificates = selectedCertificates;
-                    coachToEdit.Achievements = addedAchievement;
-                    coachToEdit.City = city;
-                    coachToEdit.WorkPlaces = addedWorkplaces;
-                    coachToEdit.Training = selectedTraining;
-                    coachToEdit.AwayTraining = selectedAwayTraining;
-                    coachToEdit.Schedule = sheduleResult;
+                    Coach coach = coachToEdit;
+                    coach.FullName = fullName;
+                    coach.Gender = gender;
+                    coach.DateOfBirth = (DateTime)birthday;
+                    coach.PhotoUrl = imageUrl;
+                    coach.Email = email;
+                    coach.Phone = addedPhones;
+                    coach.Courses = selectedCourses;
+                    coach.Sport = sport;
+                    coach.Rank = rank;
+                    coach.Experience = experience;
+                    coach.Diplomas = selectedDimplomas;
+                    coach.Courses = selectedCourses;
+                    coach.Certificates = selectedCertificates;
+                    coach.Achievements = addedAchievement;
+                    coach.City = city;
+                    coach.WorkPlaces = addedWorkplaces;
+                    coach.Training = selectedTraining;
+                    coach.AwayTraining = selectedAwayTraining;
+                    coach.Schedule = sheduleResult;
                 }
 
                 db.SaveChanges();
@@ -460,8 +486,26 @@ namespace Sports_Coaches
                 Close();
             }
             else
-            {
+                {
                 Xceed.Wpf.Toolkit.MessageBox.Show("Заповніть обов'язкові поля", "Виникла помилка");
+            }
+        }
+
+        private void delBTN_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = Xceed.Wpf.Toolkit.MessageBox.Show("Ви дійсно вневнені, що хочете видалити запис про " + coachToEdit.FullName + "?", "Видалення запису тренера", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+
+            if (result == MessageBoxResult.Yes)
+            {
+                Coach coach = db.Coaches.Include("Sport").Include("City").Include("WorkPlaces").Include("Training").Include("Phone").Include("Languages").Include("City").Include("Diplomas").Include("Courses").Include("Certificates").Include("Certificates").Include("Rank").Include("Training").Include("AwayTraining").Include("Schedule").Include("Achievements").Where(c => c.Id.Equals(coachToEdit.Id)).First();
+
+                if (coach != null)
+                {
+                    db.Coaches.Remove(coach);
+                    db.SaveChanges();
+                    this.DialogResult = true;
+                    Close();
+                }
             }
         }
     }

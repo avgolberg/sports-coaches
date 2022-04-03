@@ -46,15 +46,17 @@ namespace Sports_Coaches
                 Image img = new Image();
                 img.Width = 100;
                 img.Height = 100;
-                img.Stretch = Stretch.Uniform;
-                if (coach.PhotoUrl != null && !coach.PhotoUrl.StartsWith("pack"))
-                    img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
-                else if(coach.PhotoUrl != null && coach.PhotoUrl.StartsWith("pack")) img.Source = new BitmapImage(new Uri(coach.PhotoUrl));
+                if (coach.PhotoUrl != null)
+                    img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Absolute));
                 else img.Source = new BitmapImage(new Uri("Images/logo.jpg", UriKind.Relative));
 
                 StackPanel innerSP = new StackPanel();
                 innerSP.VerticalAlignment = VerticalAlignment.Center;
                 innerSP.Margin = new Thickness(10, 0, 10, 0);
+
+                TextBlock idTB = new TextBlock();
+                idTB.Text = coach.Id.ToString();
+                idTB.Visibility = Visibility.Hidden;
 
                 TextBlock nameTB = new TextBlock();
                 nameTB.Text = coach.FullName;
@@ -65,6 +67,7 @@ namespace Sports_Coaches
                 sportTB.Text = coach.Sport.Name;
                 sportTB.FontSize = 16;
 
+                innerSP.Children.Add(idTB);
                 innerSP.Children.Add(nameTB);
                 innerSP.Children.Add(sportTB);
 
@@ -122,11 +125,15 @@ namespace Sports_Coaches
 
             StackPanel sp = (StackPanel)GetElementInGridPosition(col, row);
             StackPanel innerSP = (StackPanel)sp.Children[1];
-            TextBlock nameTB = (TextBlock)innerSP.Children[0];
-            AddCoach addCoachForm = new AddCoach(db.Coaches.Include("Sport").Include("City").Include("WorkPlaces").Include("Training").Include("Phone").Include("Languages").Include("City").Include("Diplomas").Include("Courses").Include("Certificates").Include("Certificates").Include("Rank").Include("Training").Include("AwayTraining").Include("Schedule").Include("Achievements").Where(c => c.FullName.Equals(nameTB.Text)).First());
+            TextBlock idTB = (TextBlock)innerSP.Children[0];
+            int id = int.Parse(idTB.Text);
+            AddCoach addCoachForm = new AddCoach(id);
             addCoachForm.ShowDialog();
-            if(addCoachForm.DialogResult==true)
+            if (addCoachForm.DialogResult != null)
+            {
+                db = new Context();
                 AddCoaches(db.Coaches.Include("Sport").OrderBy(c => c.FullName));
+            }
         }
 
         private UIElement GetElementInGridPosition(int column, int row)
@@ -139,6 +146,5 @@ namespace Sports_Coaches
 
             return null;
         }
-
     }
 }
