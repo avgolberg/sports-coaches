@@ -41,7 +41,7 @@ namespace Sports_Coaches
                 while ((name = reader.ReadLine()) != null)
                 {
                     string sport = name.Split('|')[0];
-                    string image = name.Split('|')[1];
+                    string image = Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, name.Split('|')[1]);
                     Sports.Add(new Sport { Name = sport, ImageUrl=image });
                 }
             }

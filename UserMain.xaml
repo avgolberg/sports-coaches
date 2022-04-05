@@ -40,7 +40,8 @@
                       FontSize="15"
                       Width="150"
                       VerticalAlignment="Center"
-                      IsEditable="True" />
+                      IsEditable="True"
+                      SelectionChanged="citiesCB_SelectionChanged" />
         </StackPanel>
         <StackPanel Name="savedCoaches"
                     Cursor="Hand"
@@ -122,7 +123,7 @@
                                    FontSize="15"
                                    Margin="10 7 0 7" />
                         <ListBox x:Name="genderLB" Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
-                                 SelectionChanged="ListBox_SelectionChanged">
+                                 SelectionChanged="genderLB_SelectionChanged">
                             <ListBoxItem Content="Чоловік" />
                             <ListBoxItem Content="Жінка" />
                         </ListBox>
@@ -233,7 +234,8 @@
                                    FontSize="15"
                                    Margin="10 7 0 7" />
                         <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
-                                 Name="ranksLB">
+                                 Name="ranksLB"
+                                 SelectionChanged="ranksLB_SelectionChanged">
                         </ListBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"

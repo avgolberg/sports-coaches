@@ -2,6 +2,7 @@
 using Sports_Coaches.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,8 +59,8 @@ namespace Sports_Coaches
                 {
                     string filename = openFileDialog.FileName.Substring(openFileDialog.FileName.LastIndexOf('\\') + 1);
                     string sportImage = sportTB.Text.Unidecode() + filename.Substring(filename.LastIndexOf('.'));
-                    System.IO.File.Copy(openFileDialog.FileName, "..//..//Images//" + sportImage);
-                    sport.ImageUrl = "Images/" + sportImage;
+                    File.Copy(openFileDialog.FileName, "..//..//Images//" + sportImage);
+                    sport.ImageUrl = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, "Images\\" + sportImage);
                 }
                 else
                 {

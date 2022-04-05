@@ -1,4 +1,5 @@
-﻿using MaterialDesignThemes.Wpf;
+﻿using LinqKit;
+using MaterialDesignThemes.Wpf;
 using Sports_Coaches.Models;
 using System;
 using System.Collections.Generic;
@@ -19,7 +20,11 @@ namespace Sports_Coaches
     public partial class UserMain : Window
     {
         private Context db;
-        private string sportName;
+        private int sportId;
+        private int cityId;
+        private bool isFilterGrid;
+        private IQueryable<Coach> filteredCoaches;
+        private Dictionary<string, List<string>> filters = new Dictionary<string, List<string>>();
         public List<Schedule> sheduleResult = new List<Schedule>();
         public UserMain()
         {
@@ -89,8 +94,8 @@ namespace Sports_Coaches
                 Image img = new Image();
                 img.Width = 100;
                 img.Height = 100;
-                if (coach.PhotoUrl!=null)
-                    img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
+                if (coach.PhotoUrl != null)
+                    img.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Absolute));
                 else img.Source = new BitmapImage(new Uri("Images/logo.jpg", UriKind.Relative));
 
                 StackPanel infoSP = new StackPanel();
@@ -166,28 +171,24 @@ namespace Sports_Coaches
 
         private void AddRanks()
         {
-            foreach (Rank rank in db.Ranks)
-            {
-                ranksLB.Items.Add(rank.Name);
-            }
+            ranksLB.ItemsSource = db.Ranks.ToList();
+            ranksLB.DisplayMemberPath = "Name";
         }
 
         private void AddLanguages()
         {
-            foreach (Language language in db.Languages.OrderBy(l => l.Name))
-            {
-                languagesLB.Items.Add(language.Name);
-            }
+            languagesLB.ItemsSource = db.Languages.OrderBy(l => l.Name).ToList();
+            languagesLB.DisplayMemberPath = "Name";
         }
 
         private void AddCities()
         {
-            foreach (City city in db.Cities.OrderBy(c => c.Name))
+            citiesCB.ItemsSource = db.Cities.OrderBy(c => c.Name).ToList();
+            citiesCB.DisplayMemberPath = "Name";
+            foreach (City city in citiesCB.Items)
             {
-                citiesCB.Items.Add(city.Name);
-
                 if (city.Name.Equals("Київ"))
-                    citiesCB.SelectedItem = city.Name;
+                    citiesCB.SelectedItem = city;
             }
         }
 
@@ -213,7 +214,9 @@ namespace Sports_Coaches
                 img.Stretch = Stretch.UniformToFill;
                 img.HorizontalAlignment = HorizontalAlignment.Center;
                 img.VerticalAlignment = VerticalAlignment.Center;
-                img.Source = new BitmapImage(new Uri(sport.ImageUrl, UriKind.Relative));
+                if (sport.ImageUrl != null)
+                    img.Source = new BitmapImage(new Uri(sport.ImageUrl, UriKind.Absolute));
+                else img.Source = new BitmapImage(new Uri("Images/no-image.png", UriKind.Relative));
 
                 TextBlock tb = new TextBlock();
                 tb.Text = sport.Name;
@@ -222,8 +225,13 @@ namespace Sports_Coaches
                 tb.TextWrapping = TextWrapping.Wrap;
                 tb.TextAlignment = TextAlignment.Center;
 
+                TextBlock sportIdTB = new TextBlock();
+                sportIdTB.Text = sport.Id.ToString();
+                sportIdTB.Visibility = Visibility.Hidden;
+
                 sp.Children.Add(img);
                 sp.Children.Add(tb);
+                sp.Children.Add(sportIdTB);
 
                 sportsGrid.Children.Add(sp);
                 Grid.SetColumn(sp, j);
@@ -353,11 +361,13 @@ namespace Sports_Coaches
             }
 
             StackPanel sp = (StackPanel)GetElementInGridPosition(col, row);
-            TextBlock sportTB = (TextBlock)sp.Children[1];
-            sportName = sportTB.Text;
+            TextBlock sportIdTB = (TextBlock)sp.Children[2];
+            sportId = int.Parse(sportIdTB.Text);
+            cityId = (citiesCB.SelectedItem as City).Id;
 
-            AddCoaches(db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Name.Equals(sportName)).Where(c => c.City.Name.Equals(citiesCB.SelectedItem.ToString())));
+            AddCoaches(db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Id.Equals(sportId)).Where(c => c.City.Id.Equals(cityId)));
 
+            isFilterGrid = true;
             findSportGrid.Visibility = Visibility.Collapsed;
             sportsGrid.Visibility = Visibility.Collapsed;
             filterGrid.Visibility = Visibility.Visible;
@@ -377,10 +387,20 @@ namespace Sports_Coaches
 
         private void backButton_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            isFilterGrid = false;
             findSportGrid.Visibility = Visibility.Visible;
             sportsGrid.Visibility = Visibility.Visible;
             filterGrid.Visibility = Visibility.Collapsed;
             backButton.Visibility = Visibility.Collapsed;
+        }
+
+        private void citiesCB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(isFilterGrid && citiesCB.SelectedItem != null)
+            {
+                cityId = (citiesCB.SelectedItem as City).Id;
+                AddCoaches(db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Id.Equals(sportId)).Where(c => c.City.Id.Equals(cityId)));
+            }
         }
 
         private void BasicRatingBar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<int> e)
@@ -390,38 +410,89 @@ namespace Sports_Coaches
 
         }
 
-        private void ListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private IQueryable<Coach> CoachSearch(Dictionary<string, List<string>> filters)
         {
-            //IQueryable<Coach> coaches = db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName);
-                
-                //.Where(c => (int)c.Gender == 0 || (int)c.Gender == 1);
+            var predicate = PredicateBuilder.False<Coach>();
+            filteredCoaches = db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Id.Equals(sportId)).Where(c => c.City.Id.Equals(cityId));
+            if (isFilterGrid && citiesCB.SelectedItem != null)
+            {
+                foreach (string filterKey in filters.Keys)
+                {
+                    switch (filterKey)
+                    {
+                        case "Ranks":
+                            foreach (string rank in filters["Ranks"])
+                            {
+                               predicate = predicate.Or(c => c.Rank == null ? false : c.Rank.Name.Equals(rank));
+                            }
+                            filteredCoaches = filteredCoaches.AsExpandable().Where(predicate);
+                            break;
+                        case "Languages":
+                            foreach (string language in filters["Languages"])
+                            {
+                              //  predicate = predicate.Or(c => c.Languages.Name.Equals(rank));
+                            }
+                            filteredCoaches = filteredCoaches.AsExpandable().Where(predicate);
+                            break;
+                        case "Genders":
+                            foreach (string gender in filters["Genders"])
+                            {
+                                predicate = predicate.Or(c => c.Gender.ToString().Equals(gender));
+                            }
+                            filteredCoaches = filteredCoaches.AsExpandable().Where(predicate);
+                            break;                            
+                    }
+                }
+            }
+            return filteredCoaches;
+        }
 
-            //foreach (ListBoxItem item in (sender as ListBox).SelectedItems)
-            //{
-            //    if (item.Content.ToString().Equals("Чоловік"))
-            //        coaches = coaches.Where(c => (int)c.Gender == 0);
-            //    if (item.Content.ToString().Equals("Жінка"))
-            //        coaches = coaches.Where(c => (int)c.Gender == 1);
-            //}
+        private void genderLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (filters.ContainsKey("Genders")) filters.Remove("Genders");
+            List<string> genders = new List<string>();
 
-            //AddCoaches(coaches);
+            if ((sender as ListBox).SelectedItems.Count == 0)
+            {
+                genders.Add("Чоловік");
+                genders.Add("Жінка");
+                filters.Add("Genders", genders);
+                AddCoaches(CoachSearch(filters));
+            }
+            else
+            {
+                foreach (ListBoxItem item in (sender as ListBox).SelectedItems)
+                {
+                    genders.Add(item.Content.ToString());
+                }
+                filters.Add("Genders", genders);
+                AddCoaches(CoachSearch(filters));
+            }
+        }
 
-            //int index = (sender as ListBox).Name.IndexOf('L');            
-            //switch ((sender as RangeSlider).Name.Substring(0, index))
-            //{
-            //    case "gender":
-            //        AddCoaches();
-            //        break;
-            //    case "schedule":
+        private void ranksLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (filters.ContainsKey("Ranks")) filters.Remove("Ranks");
+            List<string> ranks = new List<string>();
 
-            //        break;
-            //    case "ranks":
-
-            //        break;
-            //    case "languages":
-
-            //        break;
-            //}
+            if ((sender as ListBox).SelectedItems.Count == 0)
+            {
+                foreach (Rank rank in ranksLB.Items)
+                {
+                    ranks.Add(rank.Name);
+                }
+                filters.Add("Ranks", ranks);
+                AddCoaches(CoachSearch(filters));
+            }
+            else
+            {
+                foreach (Rank rank in (sender as ListBox).SelectedItems)
+                {
+                    ranks.Add(rank.Name);
+                }
+                filters.Add("Ranks", ranks);
+                AddCoaches(CoachSearch(filters));
+            }
         }
     }
 }
