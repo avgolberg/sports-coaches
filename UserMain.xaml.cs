@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -107,13 +108,8 @@ namespace Sports_Coaches
                 nameTB.Text = coach.FullName;
                 nameTB.FontSize = 20;
 
-                //age
-                var today = DateTime.Today;
-                var birthdate = coach.DateOfBirth;
-                var age = today.Year - birthdate.Year;
-                if (birthdate.Date > today.AddYears(-age)) age--;
-
                 TextBlock ageTB = new TextBlock();
+                int age = CoachAge(coach);
                 ageTB.Text = age + " " + DeclensionGenerator.Generate(age, "рік", "роки", "років");
                 ageTB.FontSize = 16;
 
@@ -255,12 +251,11 @@ namespace Sports_Coaches
         {
             int index = (sender as RangeSlider).Name.IndexOf('S');
             string lowerValue = (sender as RangeSlider).LowerValue.ToString();
-            if ((sender as RangeSlider).LowerValue.ToString().Contains(','))
+            if (lowerValue.Contains(','))
             {
-                int comaIndex = (sender as RangeSlider).LowerValue.ToString().IndexOf(',');
-                lowerValue = (sender as RangeSlider).LowerValue.ToString().Substring(0, comaIndex);
+                int comaIndex = lowerValue.IndexOf(',');
+                lowerValue = lowerValue.Substring(0, comaIndex);
             }
-
             switch ((sender as RangeSlider).Name.Substring(0, index))
             {
                 case "age":
@@ -289,11 +284,12 @@ namespace Sports_Coaches
         {
             int index = (sender as RangeSlider).Name.IndexOf('S');
             string higherValue = (sender as RangeSlider).HigherValue.ToString();
-            if ((sender as RangeSlider).HigherValue.ToString().Contains(','))
+            if (higherValue.Contains(','))
             {
-                int comaIndex = (sender as RangeSlider).HigherValue.ToString().IndexOf(',');
-                higherValue = (sender as RangeSlider).HigherValue.ToString().Substring(0, comaIndex);
+                int comaIndex = higherValue.ToString().IndexOf(',');
+                higherValue = higherValue.Substring(0, comaIndex);
             }
+           
             switch ((sender as RangeSlider).Name.Substring(0, index))
             {
                 case "age":
@@ -324,12 +320,24 @@ namespace Sports_Coaches
             if (scheduleForm.DialogResult != null)
             {
                 this.sheduleResult = scheduleForm.sheduleResult;
+
+                if (filters.ContainsKey("Shedule")) filters.Remove("Shedule");
+                List<string> schedules = new List<string>();
+
                 scheduleLB.Items.Clear();
-                foreach (var schedule in sheduleResult.OrderBy(s => s.Day).ThenBy(s => s.StartHour))
+
+                if(sheduleResult.Count != 0)
                 {
-                    scheduleLB.Items.Add(schedule.Day.ToString() + ":" + schedule.StartHour + ":00");
+                    foreach (var schedule in sheduleResult.OrderBy(s => s.Day).ThenBy(s => s.StartHour))
+                    {
+                        scheduleLB.Items.Add(schedule.Day.ToString() + ":" + schedule.StartHour + ":00");
+                        schedules.Add(schedule.Id.ToString());
+                    }
+                    scheduleLB.SelectAll();
+                    filters.Add("Shedule", schedules);
                 }
-                scheduleLB.SelectAll();
+
+                AddCoaches(CoachSearch(filters));
             }
         }
 
@@ -412,10 +420,20 @@ namespace Sports_Coaches
 
         private IQueryable<Coach> CoachSearch(Dictionary<string, List<string>> filters)
         {
-            var predicate = PredicateBuilder.False<Coach>();
-            filteredCoaches = db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Id.Equals(sportId)).Where(c => c.City.Id.Equals(cityId));
+            var finalPredicate = PredicateBuilder.True<Coach>();
+            var rankPredicate = PredicateBuilder.False<Coach>();
+            var langPredicate = PredicateBuilder.False<Coach>();
+            var gendPredicate = PredicateBuilder.False<Coach>();
+            var agePredicate = PredicateBuilder.True<Coach>();
+            var experiencePredicate = PredicateBuilder.True<Coach>();
+            var pricesPredicate = PredicateBuilder.True<Coach>();
+            var awayTrainingPredicate = PredicateBuilder.True<Coach>();
+            var shedulePredicate = PredicateBuilder.False<Coach>();
+            filteredCoaches = db.Coaches.Include(c => c.Sport).Include(c => c.WorkPlaces).Include(c => c.Training).OrderBy(c => c.FullName).Where(c => c.Sport.Id.Equals(sportId)).Where(c => c.City.Id.Equals(cityId)) ;
             if (isFilterGrid && citiesCB.SelectedItem != null)
             {
+                int lower;
+                int higher;
                 foreach (string filterKey in filters.Keys)
                 {
                     switch (filterKey)
@@ -423,28 +441,114 @@ namespace Sports_Coaches
                         case "Ranks":
                             foreach (string rank in filters["Ranks"])
                             {
-                               predicate = predicate.Or(c => c.Rank == null ? false : c.Rank.Name.Equals(rank));
+                                if(rank == null)
+                                {
+                                    rankPredicate = rankPredicate.Or(c => c.Rank.Name.Equals(rank));
+                                    continue;
+                                }
+                                rankPredicate = rankPredicate.Or(c => c.Rank == null ? false : c.Rank.Name.Equals(rank));
                             }
-                            filteredCoaches = filteredCoaches.AsExpandable().Where(predicate);
+                            finalPredicate = finalPredicate.And(rankPredicate);
                             break;
                         case "Languages":
                             foreach (string language in filters["Languages"])
                             {
-                              //  predicate = predicate.Or(c => c.Languages.Name.Equals(rank));
+                                langPredicate = langPredicate.Or(c => c.Languages.Where(l => l.Name.Equals(language)).Any());
                             }
-                            filteredCoaches = filteredCoaches.AsExpandable().Where(predicate);
+                            finalPredicate = finalPredicate.And(langPredicate);
                             break;
                         case "Genders":
                             foreach (string gender in filters["Genders"])
                             {
-                                predicate = predicate.Or(c => c.Gender.ToString().Equals(gender));
+                                gendPredicate = gendPredicate.Or(c => c.Gender.ToString().Equals(gender));
                             }
-                            filteredCoaches = filteredCoaches.AsExpandable().Where(predicate);
-                            break;                            
+                            finalPredicate = finalPredicate.And(gendPredicate);
+                            break;
+                        case "Ages":
+                            lower = int.Parse(filters["Ages"][0]);
+                            higher = int.Parse(filters["Ages"][1]);
+
+                            //var year = DateTime.Now.Year;
+                            //var month = DateTime.Now.Month;
+                            //var day = DateTime.Now.Day;
+                            //string dob1 = year + "-" + month + "-" + day;
+                            //DateTime dob21 = Convert.ToDateTime(dob1);
+                            //var dobyear2 = year - 25;
+                            //string dob2 = dobyear2 + "-" + month + "-" + 1;
+                            //DateTime dob22 = Convert.ToDateTime(dob2);
+
+                            //.Where(s.DOB <= dob21 && s.DOB >= dob22).ToList();
+
+                            //DbFunctions.CreateDateTime()
+
+                            //var query = from c in db.Coaches
+                            //            //get the difference in years since the birthdate
+                            //            let years = DbFunctions.TruncateTime(DateTime.Now).Value.Year - DbFunctions.TruncateTime(c.DateOfBirth).Value.Year
+                            //            //get the date of the birthday this year
+                            //            let birthdayThisYear = DbFunctions.AddYears(DbFunctions.TruncateTime(c.DateOfBirth).Value, years)
+                            //            select new
+                            //            {
+                            //                //if the birthday hasn't passed yet this year we need years - 1
+                            //                Age = birthdayThisYear > DbFunctions.TruncateTime(DateTime.Now).Value ? years - 1 : years
+                            //            };
+
+                            //DbFunctions.DiffDays(DbFunctions.TruncateTime(c.DateOfBirth.Date), DbFunctions.TruncateTime(DbFunctions.AddYears(DbFunctions.TruncateTime(DateTime.Today), -DbFunctions.DiffYears(DbFunctions.TruncateTime(DateTime.Today), DbFunctions.TruncateTime(c.DateOfBirth))))) > 0 ? DbFunctions.DiffYears(DbFunctions.TruncateTime(DateTime.Today), DbFunctions.TruncateTime(c.DateOfBirth)) - 1 >= lowerAge : DbFunctions.DiffYears(DbFunctions.TruncateTime(DateTime.Today), DbFunctions.TruncateTime(c.DateOfBirth)) >= lowerAge;
+
+                            //agePredicate = agePredicate.And(c => query.Where(q => q.Age >= lower && q.Age <= higher).Any());
+
+                            finalPredicate = finalPredicate.And(agePredicate);
+                            break;
+                        case "Experience":
+                            lower = int.Parse(filters["Experience"][0]);
+                            higher = int.Parse(filters["Experience"][1]);
+                            experiencePredicate = experiencePredicate.And(c => c.Experience >= lower && c.Experience <= higher);
+                            finalPredicate = finalPredicate.And(experiencePredicate);
+                            break;
+                        case "Prices":
+                            lower = int.Parse(filters["Prices"][0]);
+                            higher = int.Parse(filters["Prices"][1]);
+                            pricesPredicate = pricesPredicate.And(c => c.Training.Min(t => t.Price) >= lower && c.Training.Min(t => t.Price) <= higher);
+                            finalPredicate = finalPredicate.And(pricesPredicate);
+                            break;
+                        case "AwayTraining":
+                            awayTrainingPredicate = awayTrainingPredicate.And(c => c.AwayTraining.Count > 0);
+                            finalPredicate = finalPredicate.And(awayTrainingPredicate);
+                            break;
+                        case "Shedule":
+                            foreach (string sheduleId in filters["Shedule"])
+                            {
+                                shedulePredicate = shedulePredicate.Or(c => c.Schedule.Where(s => s.Id.ToString().Equals(sheduleId)).Any());
+                            }
+                            finalPredicate = finalPredicate.And(shedulePredicate);
+                            break;
                     }
                 }
+                filteredCoaches = filteredCoaches.AsExpandable().Where(finalPredicate);
             }
             return filteredCoaches;
+        }
+
+        private Expression<Func<Coach, bool>> IsOlder(int lowerAge)
+        {
+            //var today = DateTime.Today;
+            //var birthdate = coach.DateOfBirth;
+            //var age = today.Year - birthdate.Year;
+            //if (birthdate.Date > today.AddYears(-age)) age--;
+
+            return c =>
+                DbFunctions.DiffDays(DbFunctions.TruncateTime(c.DateOfBirth.Date), DbFunctions.TruncateTime(DbFunctions.AddYears(DbFunctions.TruncateTime(DateTime.Today), -DbFunctions.DiffYears(DbFunctions.TruncateTime(DateTime.Today), DbFunctions.TruncateTime(c.DateOfBirth))))) > 0 ? DbFunctions.DiffYears(DbFunctions.TruncateTime(DateTime.Today), DbFunctions.TruncateTime(c.DateOfBirth)) - 1 >= lowerAge : DbFunctions.DiffYears(DbFunctions.TruncateTime(DateTime.Today), DbFunctions.TruncateTime(c.DateOfBirth)) >= lowerAge;
+
+            
+        }
+
+        private int CoachAge(Coach coach)
+        {
+            var today = DateTime.Today;
+            var birthdate = coach.DateOfBirth;
+            var age = today.Year - birthdate.Year;
+            if (birthdate.Date > today.AddYears(-age)) age--;
+
+            return age;
         }
 
         private void genderLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -456,8 +560,6 @@ namespace Sports_Coaches
             {
                 genders.Add("Чоловік");
                 genders.Add("Жінка");
-                filters.Add("Genders", genders);
-                AddCoaches(CoachSearch(filters));
             }
             else
             {
@@ -465,9 +567,9 @@ namespace Sports_Coaches
                 {
                     genders.Add(item.Content.ToString());
                 }
-                filters.Add("Genders", genders);
-                AddCoaches(CoachSearch(filters));
             }
+            filters.Add("Genders", genders);
+            AddCoaches(CoachSearch(filters));
         }
 
         private void ranksLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -481,8 +583,7 @@ namespace Sports_Coaches
                 {
                     ranks.Add(rank.Name);
                 }
-                filters.Add("Ranks", ranks);
-                AddCoaches(CoachSearch(filters));
+                ranks.Add(null);
             }
             else
             {
@@ -490,9 +591,119 @@ namespace Sports_Coaches
                 {
                     ranks.Add(rank.Name);
                 }
-                filters.Add("Ranks", ranks);
-                AddCoaches(CoachSearch(filters));
             }
+            filters.Add("Ranks", ranks);
+            AddCoaches(CoachSearch(filters));
+        }
+
+        private void languagesLB_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (filters.ContainsKey("Languages")) filters.Remove("Languages");
+            List<string> languages = new List<string>();
+
+            if ((sender as ListBox).SelectedItems.Count == 0)
+            {
+                foreach (Language language in languagesLB.Items)
+                {
+                    languages.Add(language.Name);
+                }
+            }
+            else
+            {
+                foreach (Language language in (sender as ListBox).SelectedItems)
+                {
+                    languages.Add(language.Name);
+                }
+            }
+
+            filters.Add("Languages", languages);
+            AddCoaches(CoachSearch(filters));
+        }
+
+        private void ageSlider_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            string lowerValue = (sender as RangeSlider).LowerValue.ToString();
+            string higherValue = (sender as RangeSlider).HigherValue.ToString();
+            int comaIndex;
+            if (lowerValue.Contains(','))
+            {
+                comaIndex = lowerValue.IndexOf(',');
+                lowerValue = lowerValue.Substring(0, comaIndex);
+            }
+            if (higherValue.Contains(','))
+            {
+                comaIndex = higherValue.IndexOf(',');
+                higherValue = higherValue.Substring(0, comaIndex);
+            }
+
+            if (filters.ContainsKey("Ages")) filters.Remove("Ages");
+            List<string> ages = new List<string>();
+            ages.Add(lowerValue);
+            ages.Add(higherValue);
+            filters.Add("Ages", ages);
+            AddCoaches(CoachSearch(filters));
+        }
+
+        private void experienceSlider_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            string lowerValue = (sender as RangeSlider).LowerValue.ToString();
+            string higherValue = (sender as RangeSlider).HigherValue.ToString();
+            int comaIndex;
+            if (lowerValue.Contains(','))
+            {
+                comaIndex = lowerValue.IndexOf(',');
+                lowerValue = lowerValue.Substring(0, comaIndex);
+            }
+            if (higherValue.Contains(','))
+            {
+                comaIndex = higherValue.IndexOf(',');
+                higherValue = higherValue.Substring(0, comaIndex);
+            }
+
+            if (filters.ContainsKey("Experience")) filters.Remove("Experience");
+            List<string> experience = new List<string>();
+            experience.Add(lowerValue);
+            experience.Add(higherValue);
+            filters.Add("Experience", experience);
+            AddCoaches(CoachSearch(filters));
+        }
+
+        private void priceSlider_LostMouseCapture(object sender, MouseEventArgs e)
+        {
+            string lowerValue = (sender as RangeSlider).LowerValue.ToString();
+            string higherValue = (sender as RangeSlider).HigherValue.ToString();
+            int comaIndex;
+            if (lowerValue.Contains(','))
+            {
+                comaIndex = lowerValue.IndexOf(',');
+                lowerValue = lowerValue.Substring(0, comaIndex);
+            }
+            if (higherValue.Contains(','))
+            {
+                comaIndex = higherValue.IndexOf(',');
+                higherValue = higherValue.Substring(0, comaIndex);
+            }
+
+            if (filters.ContainsKey("Prices")) filters.Remove("Prices");
+            List<string> prices = new List<string>();
+            prices.Add(lowerValue);
+            prices.Add(higherValue);
+            filters.Add("Prices", prices);
+            AddCoaches(CoachSearch(filters));
+        }
+
+        private void awayTrainingCB_Click(object sender, RoutedEventArgs e)
+        {
+            if (filters.ContainsKey("AwayTraining")) filters.Remove("AwayTraining");
+            List<string> awayTraining = new List<string>();
+
+            if ((bool)awayTrainingCB.IsChecked)
+            {
+                awayTraining.Add(awayTrainingCB.IsChecked.ToString());
+                filters.Add("AwayTraining", awayTraining);
+            }
+            
+            AddCoaches(CoachSearch(filters));
         }
     }
 }

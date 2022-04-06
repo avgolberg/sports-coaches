@@ -135,8 +135,11 @@
                                    Margin="10 7 0 7" />
                         <xctk:RangeSlider x:Name="ageSlider"
                                           Width="190"
+                                          LowerThumbBackground="#FFFFC683"
+                                          HigherThumbBackground="#FFFFC683"
                                           LowerValueChanged="slider_LowerValueChanged"
-                                          HigherValueChanged="slider_HigherValueChanged" />
+                                          HigherValueChanged="slider_HigherValueChanged"
+                                          LostMouseCapture="ageSlider_LostMouseCapture" />
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <TextBlock Name="ageLowerTB"
@@ -159,12 +162,11 @@
                                    Margin="10 7 0 7" />
                         <xctk:RangeSlider x:Name="priceSlider"
                                           Width="190"
-                                          Minimum="17"
-                                          Maximum="90"
-                                          LowerValue="30"
-                                          HigherValue="70"
+                                          LowerThumbBackground="#FFFFC683"
+                                          HigherThumbBackground="#FFFFC683"
                                           LowerValueChanged="slider_LowerValueChanged"
-                                          HigherValueChanged="slider_HigherValueChanged" />
+                                          HigherValueChanged="slider_HigherValueChanged"
+                                          LostMouseCapture="priceSlider_LostMouseCapture" />
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <TextBlock Name="priceLowerTB"
@@ -187,12 +189,11 @@
                                    Margin="10 7 0 7" />
                         <xctk:RangeSlider x:Name="experienceSlider"
                                           Width="190"
-                                          Minimum="17"
-                                          Maximum="90"
-                                          LowerValue="30"
-                                          HigherValue="70"
+                                          LowerThumbBackground="#FFFFC683"
+                                          HigherThumbBackground="#FFFFC683"
                                           LowerValueChanged="slider_LowerValueChanged"
-                                          HigherValueChanged="slider_HigherValueChanged" />
+                                          HigherValueChanged="slider_HigherValueChanged"
+                                          LostMouseCapture="experienceSlider_LostMouseCapture" />
                         <StackPanel Orientation="Horizontal"
                                     HorizontalAlignment="Center">
                             <TextBlock Name="experienceLowerTB"
@@ -223,8 +224,9 @@
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
                                 Margin="30 10 10 10">
-                        <CheckBox IsChecked="True"
-                                  Margin="10 7 0 7">
+                        <CheckBox Name="awayTrainingCB"
+                                  Margin="10 7 0 7"
+                                  Click="awayTrainingCB_Click">
                             Виїзні тренування
                         </CheckBox>
                     </StackPanel>
@@ -244,7 +246,8 @@
                                    FontSize="15"
                                    Margin="10 7 0 7" />
                         <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
-                                 Name="languagesLB">
+                                 Name="languagesLB"
+                                 SelectionChanged="languagesLB_SelectionChanged">
                         </ListBox>
                     </StackPanel>
                 </StackPanel>
