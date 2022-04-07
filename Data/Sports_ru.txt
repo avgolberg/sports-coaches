@@ -1,0 +1,61 @@
+﻿Айкидо|Images/Aikido.png
+Академическая гребля|Images/Rowing.png
+Аквааэробика|Images/Aqua-aerobics.png
+Акробатика|Images/Acrobatics.png
+Альпинизм|Images/Mountaineering.png
+Американский футбол|Images/American-Football.png
+Бадминтон|Images/Badminton.png
+Балет|Images/Ballet.png
+Баскетбол|Images/Basketball.png
+Бег|Images/Run.png
+Бейсбол|Images/Baseball.png
+Бильярд|Images/Billiards.png
+Бодибилдинг|Images/Bodybuilding.png
+Боевое самбо|Images/Sambo-fights.png
+Бокс|Images/Boxing.png
+Большой теннис|Images/Tennis.png
+Боулинг|Images/Bowling.png
+Велоспорт|Images/Cycling.png
+Верховая езда|Images/Riding.png
+Водное поло|Images/Water-polo.png
+Волейбол|Images/Volleyball.png
+Вольная борьба|Images/Wrestling.png
+Воркаут|Images/Workout.png
+Виндсёрфинг|Images/Sailing.png
+Гандбол|Images/Handball.png
+Гольф|Images/Golf.png
+Гребля на байдарках|Images/Kayaking.png
+Греко-римская борьба|Images/Greco-Roman-wrestling.png
+Горные лыжи|Images/Downhill-skiing.png
+Дайвинг|Images/Diving.png
+Джиу-джитсу|Images/Jiu-Jitsu.png
+Дзюдо|Images/Judo.png
+Динамическая стрельба|Images/Dynamic-shooting.png
+Йога|Images/Yoga.png
+Каратэ|Images/Karate.png
+Кунг-фу|Images/Kung-Fu.png
+Кикбоксинг|Images/Kickboxing.png
+Легкая атлетика|Images/Athletics.png
+ММА|Images/MMA.png
+Пилатес|Images/Pilates.png
+Рафтинг|Images/Rafting.png
+Регби|Images/Rugby.png
+Рукопашный бой|Images/Dogfight.png
+Самбо|Images/Sambo.png
+Синхронное плавание|Images/Synchronized-swimming.png
+Скейтбординг|Images/Skateboarding.png
+Сноубординг|Images/Snowboarding.png
+Стретчинг|Images/Stretching.png
+Прыжки на батуте|Images/Trampoline-jumping.png
+Современные танцы|Images/Modern-dances.png
+Восточные танцы|Images/Eastern-dance.png
+Тайский бокс|Images/Thai-boxing.png
+Тхэквондо|Images/Taekwondo.png
+Ушу|Images/Wushu.png
+Фехтование|Images/Fencing.png
+Футбол|Images/Football.png
+Фигурное катание|Images/Figure-skating.png
+Фитнес|Images/Fitness.png
+Хоккей|Images/Hockey.png
+Художественная гимнастика|Images/Gymnastics.png
+Шахматы|Images/Chess.png

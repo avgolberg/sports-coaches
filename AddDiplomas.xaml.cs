@@ -34,7 +34,7 @@ namespace Sports_Coaches
             comboBox.IsEditable = true;
             comboBox.ItemsSource = diplomas;
             comboBox.DisplayMemberPath = "Name";
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(comboBox, "Навчальний заклад");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(comboBox, "Учебное заведение");
 
             diplomasSP.Children.Add(comboBox);
         }
@@ -53,8 +53,7 @@ namespace Sports_Coaches
             selectedDimplomas.Clear();
             foreach (ComboBox cb in diplomasSP.Children)
             {
-                if (selectedDimplomas.Where(d => d.Name.Equals(cb.Text)).Any()) continue;
-                else if (diplomas.Where(d => d.Name.Equals(cb.Text)).Any())
+                if (diplomas.Where(d => d.Name.Equals(cb.Text)).Any())
                 {
                     selectedDimplomas.Add(diplomas.Where(d => d.Name.Equals(cb.Text)).FirstOrDefault());
                 }

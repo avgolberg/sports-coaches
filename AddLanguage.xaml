@@ -14,14 +14,14 @@
         <StackPanel>
         <TextBox Name="languageTB"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                 materialDesign:HintAssist.Hint="Назва мови *"
+                     materialDesign:HintAssist.Hint="Название языка *"
                  FontSize="14"
                  Margin="10" />
         <Button Name="addBTN"
                 Style="{StaticResource MaterialDesignOutlinedButton}"
                 Margin="10 5 10 20"
                 FontSize="14"
-                Content="Додати мову"
+                Content="Добавить язык"
                 Click="addBTN_Click" />
         </StackPanel>
     </Grid>

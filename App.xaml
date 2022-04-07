@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:materialDesign="https://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:local="clr-namespace:Sports_Coaches"
-             StartupUri="UserMain.xaml">
+             StartupUri="AdminMain.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>

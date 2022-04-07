@@ -140,8 +140,8 @@ namespace Sports_Coaches
 
                 TextBlock priceTB = new TextBlock();
                 if(coach.Training.Count != 0)
-                    priceTB.Text = "від " + coach.Training.Min(t => t.Price) + " грн.";
-                else priceTB.Text = "від 1 грн.";
+                    priceTB.Text = "от " + coach.Training.Min(t => t.Price) + " у.е.";
+                else priceTB.Text = "від 1 у.е.";
                 priceTB.FontSize = 20;
 
                 TextBlock textTB = new TextBlock();
@@ -609,8 +609,8 @@ namespace Sports_Coaches
 
             if ((sender as ListBox).SelectedItems.Count == 0)
             {
-                genders.Add("Чоловік");
-                genders.Add("Жінка");
+                genders.Add("Мужчина");
+                genders.Add("Женщина");
             }
             else
             {

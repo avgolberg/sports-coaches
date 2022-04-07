@@ -135,7 +135,7 @@ namespace Sports_Coaches
             sheduleResult = coach.Schedule.ToList();
             AddSelectedSchedule();
 
-            addBTN.Content = "Зберегти";
+            addBTN.Content = "Сохранить";
 
         }
 
@@ -199,7 +199,7 @@ namespace Sports_Coaches
             trainingLB.Items.Clear();
             foreach (Training training in selectedTraining)
             {
-                trainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " грн.");
+                trainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " у.е.");
             }
             trainingLB.SelectAll();
         }
@@ -209,7 +209,7 @@ namespace Sports_Coaches
             awayTrainingLB.Items.Clear();
             foreach (AwayTraining training in selectedAwayTraining)
             {
-                awayTrainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " грн.");
+                awayTrainingLB.Items.Add(training.Name + " - " + training.Time + " | " + training.Price + " у.е.");
             }
             awayTrainingLB.SelectAll();
         }
@@ -417,7 +417,7 @@ namespace Sports_Coaches
 
             DateTime? birthday = birthdateDP.SelectedDate;
 
-            string imageUrl = "";
+            string imageUrl;
             if (openFileDialog != null)
             {
                 string filename = openFileDialog.FileName.Substring(openFileDialog.FileName.LastIndexOf('\\') + 1);
@@ -425,10 +425,11 @@ namespace Sports_Coaches
                 File.Copy(openFileDialog.FileName, "..//..//Images//" + coachImage, true);
                 imageUrl = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, "Images\\" + coachImage);
             }
-            else if(!isEditForm)
+            else if (!isEditForm)
             {
                 imageUrl = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, "Images\\no-image.png");
             }
+            else imageUrl = coachToEdit.PhotoUrl;
 
             string email = emailTB.Text;
 

@@ -11,8 +11,10 @@ namespace Sports_Coaches
 {
     class Context : DbContext
     {
+        private bool ruVersion = false; 
         public Context() : base("Context")
         {
+            //ruVersion = true;
             //Fill(); //at first start to fill the database
         }
         public DbSet<Sport> Sports { get; set; }
@@ -34,8 +36,11 @@ namespace Sports_Coaches
         private void Fill()
         {
             //Sports
-            string path = "..//..//Data//Sports.txt";
+            string path;
             string name;
+
+            path = "..//..//Data//Sports.txt";
+            if (ruVersion) path = "..//..//Data//Sports_ru.txt";
             using (StreamReader reader = new StreamReader(path))
             {
                 while ((name = reader.ReadLine()) != null)
@@ -48,6 +53,7 @@ namespace Sports_Coaches
 
             //Languages
             path = "..//..//Data//Languages.txt";
+            if (ruVersion) path = "..//..//Data//Languages_ru.txt";
             using (StreamReader reader = new StreamReader(path))
             {
                 while ((name = reader.ReadLine()) != null)
@@ -58,6 +64,7 @@ namespace Sports_Coaches
 
             //Ranks
             path = "..//..//Data//Ranks.txt";
+            if (ruVersion) path = "..//..//Data//Ranks_ru.txt";
             using (StreamReader reader = new StreamReader(path))
             {
                 while ((name = reader.ReadLine()) != null)
@@ -68,6 +75,7 @@ namespace Sports_Coaches
 
             //Cities
             path = "..//..//Data//Cities.txt";
+            if (ruVersion) path = "..//..//Data//Cities_ru.txt";
             using (StreamReader reader = new StreamReader(path))
             {
                 while ((name = reader.ReadLine()) != null)

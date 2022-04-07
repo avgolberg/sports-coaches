@@ -155,7 +155,7 @@ namespace Sports_Coaches
         {
             foreach (Training training in selectedTraining)
             {
-                trainingSP.Children.Add(new TextBox { Text = training.Name + " - " + training.Time + " | " + training.Price + " грн.", IsReadOnly = true, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(10) });
+                trainingSP.Children.Add(new TextBox { Text = training.Name + " - " + training.Time + " | " + training.Price + " у.е.", IsReadOnly = true, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(10) });
             }
         }
 
@@ -163,7 +163,7 @@ namespace Sports_Coaches
         {
             foreach (AwayTraining training in selectedAwayTraining)
             {
-                awayTrainingSP.Children.Add(new TextBox { Text = training.Name + " - " + training.Time + " | " + training.Price + " грн.", IsReadOnly = true, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(10) });
+                awayTrainingSP.Children.Add(new TextBox { Text = training.Name + " - " + training.Time + " | " + training.Price + " у.е.", IsReadOnly = true, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(10) });
             }
         }
 

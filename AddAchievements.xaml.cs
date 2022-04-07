@@ -31,7 +31,7 @@ namespace Sports_Coaches
             sp.Margin = new Thickness(10);
 
             TextBox nameTB = new TextBox();
-            HintAssist.SetHint(nameTB, "Досягнення");
+            HintAssist.SetHint(nameTB, "Достижение");
             nameTB.FontSize = 14;
             nameTB.Margin = new Thickness(10);
             nameTB.Padding = new Thickness(0, 10, 10, 10);
@@ -41,7 +41,7 @@ namespace Sports_Coaches
             else nameTB.Text = "";
 
             TextBox placeTB = new TextBox();
-            HintAssist.SetHint(placeTB, "Місце");
+            HintAssist.SetHint(placeTB, "Место");
             placeTB.FontSize = 14;
             placeTB.Margin = new Thickness(10);
             placeTB.Padding = new Thickness(0, 10, 10, 10);
@@ -51,7 +51,7 @@ namespace Sports_Coaches
             else placeTB.Text = "";
 
             TextBox statusTB = new TextBox();
-            HintAssist.SetHint(statusTB, "Статус досягнення");
+            HintAssist.SetHint(statusTB, "Статус достижения");
             statusTB.FontSize = 14;
             statusTB.Margin = new Thickness(10);
             statusTB.Padding = new Thickness(0, 10, 10, 10);

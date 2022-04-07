@@ -34,7 +34,7 @@ namespace Sports_Coaches
             comboBox.IsEditable = true;
             comboBox.ItemsSource = courses;
             comboBox.DisplayMemberPath = "Name";
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(comboBox, "Назва курсу");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(comboBox, "Название курса");
 
             coursesSP.Children.Add(comboBox);
         }

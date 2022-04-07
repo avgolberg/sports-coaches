@@ -34,7 +34,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 20 10 20"
                         FontSize="14"
-                        Content="Дадати номери телефону"
+                        Content="Добавить номера телефона"
                         Click="addBTN_Click"
                         VerticalAlignment="Bottom" />
             </StackPanel>

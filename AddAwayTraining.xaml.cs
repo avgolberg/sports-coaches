@@ -31,7 +31,7 @@ namespace Sports_Coaches
             sp.Margin = new Thickness(10);
 
             TextBox nameTB = new TextBox();
-            HintAssist.SetHint(nameTB, "Назва тренування");
+            HintAssist.SetHint(nameTB, "Название тренировки");
             nameTB.FontSize = 14;
             nameTB.Margin = new Thickness(10);
             nameTB.Padding = new Thickness(0, 10, 10, 10);
@@ -41,7 +41,7 @@ namespace Sports_Coaches
             else nameTB.Text = "";
 
             TextBox timeTB = new TextBox();
-            HintAssist.SetHint(timeTB, "Час тренування (наприклад, 1 год 20 хв)");
+            HintAssist.SetHint(timeTB, "Время тренировки (например, 1 ч 20 мин)");
             timeTB.FontSize = 14;
             timeTB.Margin = new Thickness(10);
             timeTB.Padding = new Thickness(0, 10, 10, 10);
@@ -51,7 +51,7 @@ namespace Sports_Coaches
             else timeTB.Text = "";
 
             TextBox priceTB = new TextBox();
-            HintAssist.SetHint(priceTB, "Ціна");
+            HintAssist.SetHint(priceTB, "Цена");
             priceTB.FontSize = 14;
             priceTB.Margin = new Thickness(10);
             priceTB.Padding = new Thickness(0, 10, 10, 10);

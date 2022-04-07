@@ -21,7 +21,7 @@
         <StackPanel Grid.Row="1">
             <Button Style="{StaticResource MaterialDesignFlatLightBgButton}"
                     Click="Button_Click">
-                Обрати
+                Выбрать
             </Button>
         </StackPanel>
     </Grid>

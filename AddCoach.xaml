@@ -28,7 +28,7 @@
                     Margin="10,10,10.4,11.2">
             <TextBox Name="nameTB"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Ім'я та прізвище *"
+                     materialDesign:HintAssist.Hint="Имя и фамилия *"
                      VerticalAlignment="Top"
                      FontSize="14"
                      Margin="10"
@@ -40,21 +40,21 @@
                    Margin="10"
                    Cursor="Hand"
                    PreviewMouseLeftButtonDown="coachImage_PreviewMouseLeftButtonDown" />
-            <TextBlock Text="Стать *"
+            <TextBlock Text="Пол *"
                        Margin="10 10 10 5"
                        FontSize="14" />
             <StackPanel Orientation="Horizontal" Name="genderSP">
                 <RadioButton Margin="10"
                              Style="{StaticResource MaterialDesignRadioButton}" IsChecked="True">
-                    Чоловік
+                    Мужчина
                 </RadioButton>
                 <RadioButton Margin="10"
                              Style="{StaticResource MaterialDesignRadioButton}">
-                    Жінка
+                    Женщина
                 </RadioButton>
             </StackPanel>
             <DatePicker Name="birthdateDP"
-                        materialDesign:HintAssist.Hint="Дата народження *"
+                        materialDesign:HintAssist.Hint="Дата рождения *"
                         Style="{StaticResource MaterialDesignFloatingHintDatePicker}"
                         Margin="10"
                         FontSize="14" />
@@ -71,7 +71,7 @@
                 <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">15</sys:Double>
             </ScrollViewer.Resources>
             <StackPanel Margin="10">
-                <TextBlock Text="Номер телефону *"
+                <TextBlock Text="Номер телефона *"
                          FontSize="14"
                          Margin="10 10 10 5"
                          TextWrapping="Wrap" />
@@ -83,7 +83,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 10 10 10"
                         FontSize="14"
-                        Content="Додати додаткові номери"
+                        Content="Добавить доп. номер"
                         Click="phonesBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="phonesLB"
@@ -91,7 +91,7 @@
                          Margin="10 5 10 20">
                 </ListBox>
                 <StackPanel>
-                    <TextBlock Text="Мови *"
+                    <TextBlock Text="Языки *"
                                FontSize="14"
                                Margin="10" />
                     <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
@@ -103,7 +103,7 @@
                             Style="{StaticResource MaterialDesignOutlinedButton}"
                             Margin="10 5 10 20"
                             FontSize="14"
-                            Content="Додати мову"
+                            Content="Добавить язык"
                             Click="languagesBTN_Click" />
                 </StackPanel>
             </StackPanel>
@@ -114,7 +114,7 @@
             </ScrollViewer.Resources>
             <StackPanel Margin="10">
                 <ComboBox Name="sportCB"
-                          materialDesign:HintAssist.Hint="Вид спорту *"
+                          materialDesign:HintAssist.Hint="Вид спорта *"
                           Margin="10"
                           FontSize="14"
                           IsEditable="True">
@@ -123,17 +123,17 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 10"
                         FontSize="14"
-                        Content="Додати спорт"
+                        Content="Добавить спорт"
                         Click="sportBTN_Click" />
                 <ComboBox Name="rankCB"
-                          materialDesign:HintAssist.Hint="Розряд"
+                          materialDesign:HintAssist.Hint="Разряд"
                           FontSize="14"
                           Margin="10"
                           IsEditable="True">
                 </ComboBox>
                 <TextBox Name="experienceTB"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                         materialDesign:HintAssist.Hint="Досвід (у роках) *"
+                         materialDesign:HintAssist.Hint="Опыт (в годах) *"
                          VerticalAlignment="Top"
                          FontSize="14"
                          Margin="10 5 10 20" />
@@ -141,7 +141,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10"
                         FontSize="14"
-                        Content="Додати дані про освіту"
+                        Content=" + Образование"
                         Click="dimplomasBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="diplomasLB"
@@ -152,7 +152,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати пройдені курси"
+                        Content=" + Курсы"
                         Click="coursesBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="coursesLB"
@@ -163,7 +163,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати сертифікати"
+                         Content=" + Сертификаты"
                          Click="certificatesBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="certificatesLB"
@@ -174,7 +174,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати досягнення"
+                        Content=" + Достижения"
                         Click="achievementsBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="achievementsLB"
@@ -197,7 +197,7 @@
             </ScrollViewer.Resources>
             <StackPanel Margin="9.8,10,9.6,11.2">
                 <ComboBox Name="cityCB"
-                          materialDesign:HintAssist.Hint="Місто *"
+                          materialDesign:HintAssist.Hint="Город *"
                           Margin="10"
                           FontSize="14"
                           IsEditable="True" />
@@ -205,13 +205,13 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 20"
                         FontSize="14"
-                        Content="Додати місто"
+                        Content="Добавить город"
                         Click="cityBTN_Click" />
                 <Button Name="workplaceBTN"
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати місце роботи"
+                        Content=" + Место работы"
                         Click="workplaceBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="workplaceLB"
@@ -230,7 +230,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати тренування *"
+                        Content=" + Тренировки *"
                         Click="trainingBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="trainingLB"
@@ -249,7 +249,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати виїзні тренування"
+                        Content=" + Выездные тренировки"
                         Click="awayTrainingBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="awayTrainingLB"
@@ -268,7 +268,7 @@
                         Style="{StaticResource MaterialDesignOutlinedButton}"
                         Margin="10 5 10 5"
                         FontSize="14"
-                        Content="Додати робочий графік"
+                        Content=" + Рабочий график"
                         Click="scheduleBTN_Click" />
                 <ListBox Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                          Name="scheduleLB"
@@ -285,16 +285,15 @@
                     VerticalAlignment="Center">
             <Button Name="delBTN"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
-                    Content="Видалити"
+                    Content="Удалить"
                     Click="delBTN_Click"
                     Width="100" 
                     Margin="10"
                     Visibility="Collapsed"/>
             <Button Name="addBTN"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
-                    Content="Зберегти"
+                    Content="Сохранить"
                     Click="addBTN_Click"
-                    Width="91"
                     Margin="10" />
         </StackPanel>
     </Grid>

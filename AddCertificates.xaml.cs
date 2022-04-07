@@ -32,7 +32,7 @@ namespace Sports_Coaches
             comboBox.IsEditable = true;
             comboBox.ItemsSource = certificates;
             comboBox.DisplayMemberPath = "Name";
-            MaterialDesignThemes.Wpf.HintAssist.SetHint(comboBox, "Назва сертифікату");
+            MaterialDesignThemes.Wpf.HintAssist.SetHint(comboBox, "Название сертификата");
 
             certificatesSP.Children.Add(comboBox);
         }

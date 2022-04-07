@@ -29,14 +29,14 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel>
-                <TextBlock Text="Система обліку даних про спортивних тренерів"
+                <TextBlock Text="Система учета данных о спортивных тренерах"
                            FontSize="30"
                            FontFamily="Trebuchet MS"
                            TextAlignment="Center"
                            Margin="20"
                            Padding="10" />
                 <TextBox Name="searchTB"
-                         materialDesign:HintAssist.Hint="Введіть прізвище та ім'я тренера..."
+                         materialDesign:HintAssist.Hint="Введите фамилию и имя тренера..."
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Width="380"
                          FontSize="15"

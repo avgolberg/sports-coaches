@@ -16,7 +16,7 @@
         <StackPanel>
             <TextBox Name="sportTB"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Назва спорту *"
+                     materialDesign:HintAssist.Hint="Название спорт *"
                      FontSize="14"
                      Margin="10" />
             <Image Name="sportImage"
@@ -30,7 +30,7 @@
                     Style="{StaticResource MaterialDesignOutlinedButton}"
                     Margin="10 5 10 20"
                     FontSize="14"
-                    Content="Додати спорт"
+                    Content="Добавить спорт"
                     Click="addBTN_Click" />
         </StackPanel>
     </Grid>

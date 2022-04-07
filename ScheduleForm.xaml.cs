@@ -51,7 +51,7 @@ namespace Sports_Coaches
                 mainGrid.ColumnDefinitions.Add(columnDef);
             }
 
-            List<string> days = new List<string>() { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Нд" };
+            List<string> days = new List<string>() { "Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс" };
             for (int i = 0; i < columnNumber-1; i++)
             {
                 TextBlock tb = new TextBlock();

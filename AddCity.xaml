@@ -16,14 +16,14 @@
         <StackPanel>
             <TextBox Name="cityTB"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Назва міста *"
+                     materialDesign:HintAssist.Hint="Название города *"
                      FontSize="14"
                      Margin="10" />
             <Button Name="addBTN"
                     Style="{StaticResource MaterialDesignOutlinedButton}"
                     Margin="10 5 10 20"
                     FontSize="14"
-                    Content="Додати місто"
+                    Content="Добавить город"
                     Click="addBTN_Click" />
         </StackPanel>
     </Grid>

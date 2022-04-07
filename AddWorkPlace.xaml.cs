@@ -44,7 +44,7 @@ namespace Sports_Coaches
                 nameCB.ItemsSource = db.WorkPlaces.Where(w => w.City.Name.Equals(cityName)).ToList();
             else nameCB.ItemsSource = db.WorkPlaces.ToList();
             nameCB.DisplayMemberPath = "Name";
-            HintAssist.SetHint(nameCB, "Місце роботи");
+            HintAssist.SetHint(nameCB, "Место работы");
             nameCB.SelectionChanged += new SelectionChangedEventHandler(NameChanged);
 
             TextBox addressTB = new TextBox();
@@ -66,7 +66,7 @@ namespace Sports_Coaches
             cityCB.IsEditable = true;
             cityCB.ItemsSource = db.Cities.ToList();
             cityCB.DisplayMemberPath = "Name";
-            HintAssist.SetHint(cityCB, "Місто");
+            HintAssist.SetHint(cityCB, "Город");
 
             sp.Children.Add(nameCB);
             sp.Children.Add(addressTB);

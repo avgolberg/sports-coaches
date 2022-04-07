@@ -32,7 +32,7 @@
                                      Height="24"
                                      Width="26"
                                      PreviewMouseLeftButtonDown="backButton_PreviewMouseLeftButtonDown" />
-            <TextBlock Text="Ваше місто:"
+            <TextBlock Text="Ваш город:"
                        FontSize="15"
                        Padding="10"
                        VerticalAlignment="Center" />
@@ -49,7 +49,7 @@
                     HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Margin="0 25 40 0">
-            <TextBlock Text="Збережені тренери"
+            <TextBlock Text="Сохраненные тренеры"
                        FontSize="15"
                        Padding="10"
                        VerticalAlignment="Center" />
@@ -71,11 +71,11 @@
             <WrapPanel Margin="20"
                        Orientation="Vertical"
                        HorizontalAlignment="Center">
-                <TextBlock Text="Знайди свого тренера вже зараз!"
+                <TextBlock Text="Найди своего тренера уже сейчас!"
                            FontSize="23"
                            TextAlignment="Center"
                            Margin="0 20 0 20" />
-                <TextBox materialDesign:HintAssist.Hint="Введіть назву спорту..."
+                <TextBox materialDesign:HintAssist.Hint="Введите название спорта..."
                          x:Name="searchTB"
                          Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                          Width="340"
@@ -124,8 +124,8 @@
                                    Margin="10 7 0 7" />
                         <ListBox x:Name="genderLB" Style="{StaticResource MaterialDesignFilterChipPrimaryOutlineListBox}"
                                  SelectionChanged="genderLB_SelectionChanged">
-                            <ListBoxItem Content="Чоловік" />
-                            <ListBoxItem Content="Жінка" />
+                            <ListBoxItem Content="Мужчина" />
+                            <ListBoxItem Content="Женщина" />
                         </ListBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
@@ -227,7 +227,7 @@
                         <CheckBox Name="awayTrainingCB"
                                   Margin="10 7 0 7"
                                   Click="awayTrainingCB_Click">
-                            Виїзні тренування
+                            Выездные тренировки
                         </CheckBox>
                     </StackPanel>
                     <StackPanel Orientation="Vertical"
