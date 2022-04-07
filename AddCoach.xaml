@@ -28,7 +28,7 @@
                     Margin="10,10,10.4,11.2">
             <TextBox Name="nameTB"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
-                     materialDesign:HintAssist.Hint="Ім'я та по-батькові *"
+                     materialDesign:HintAssist.Hint="Ім'я та прізвище *"
                      VerticalAlignment="Top"
                      FontSize="14"
                      Margin="10"

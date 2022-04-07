@@ -255,7 +255,8 @@
 
             <ScrollViewer Grid.Column="1"
                           Grid.Row="1">
-                <Grid Name="coachesGrid">
+                <Grid Name="coachesGrid"
+                      PreviewMouseLeftButtonDown="coachesGrid_PreviewMouseLeftButtonDown">
 
                 </Grid>
             </ScrollViewer>

@@ -108,6 +108,10 @@ namespace Sports_Coaches
                 nameTB.Text = coach.FullName;
                 nameTB.FontSize = 20;
 
+                TextBlock idTB = new TextBlock();
+                idTB.Text = coach.Id.ToString();
+                idTB.Visibility = Visibility.Hidden;
+
                 TextBlock ageTB = new TextBlock();
                 int age = CoachAge(coach);
                 ageTB.Text = age + " " + DeclensionGenerator.Generate(age, "рік", "роки", "років");
@@ -125,6 +129,7 @@ namespace Sports_Coaches
                 workplaceTB.Margin = new Thickness(0, 10, 0, 10);
 
                 infoSP.Children.Add(nameTB);
+                infoSP.Children.Add(idTB);
                 infoSP.Children.Add(ageTB);
                 infoSP.Children.Add(sportTB);
                 infoSP.Children.Add(workplaceTB);
@@ -382,9 +387,55 @@ namespace Sports_Coaches
             backButton.Visibility = Visibility.Visible;
         }
 
+        private void coachesGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var point = Mouse.GetPosition(coachesGrid);
+
+            int row = 0;
+            int col = 0;
+            double accumulatedHeight = 0.0;
+            double accumulatedWidth = 0.0;
+
+            // calc row mouse was over
+            foreach (var rowDefinition in coachesGrid.RowDefinitions)
+            {
+                accumulatedHeight += rowDefinition.ActualHeight;
+                if (accumulatedHeight >= point.Y)
+                    break;
+                row++;
+            }
+
+            // calc col mouse was over
+            foreach (var columnDefinition in coachesGrid.ColumnDefinitions)
+            {
+                accumulatedWidth += columnDefinition.ActualWidth;
+                if (accumulatedWidth >= point.X)
+                    break;
+                col++;
+            }
+
+            StackPanel sp = (StackPanel)coachesGrid_GetElementInGridPosition(col, row);
+            StackPanel infoSP = (StackPanel)sp.Children[1];
+            TextBlock idTB = (TextBlock)infoSP.Children[1];
+
+            ViewCoach viewCoachForm = new ViewCoach(int.Parse(idTB.Text));
+            viewCoachForm.ShowDialog();
+        }
+
         private UIElement GetElementInGridPosition(int column, int row)
         {
             foreach (UIElement element in this.sportsGrid.Children)
+            {
+                if (Grid.GetColumn(element) == column && Grid.GetRow(element) == row)
+                    return element;
+            }
+
+            return null;
+        }
+
+        private UIElement coachesGrid_GetElementInGridPosition(int column, int row)
+        {
+            foreach (UIElement element in this.coachesGrid.Children)
             {
                 if (Grid.GetColumn(element) == column && Grid.GetRow(element) == row)
                     return element;
@@ -705,6 +756,8 @@ namespace Sports_Coaches
             
             AddCoaches(CoachSearch(filters));
         }
+
+       
     }
 }
 public class DeclensionGenerator

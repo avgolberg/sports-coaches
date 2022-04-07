@@ -65,9 +65,8 @@ namespace Sports_Coaches
             else (genderSP.Children[1] as RadioButton).IsChecked = true;
             birthdateDP.SelectedDate = coach.DateOfBirth;
 
-            if (coach.PhotoUrl != null && !coach.PhotoUrl.StartsWith("pack"))
-                coachImage.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Relative));
-            else if (coach.PhotoUrl != null && coach.PhotoUrl.StartsWith("pack")) coachImage.Source = new BitmapImage(new Uri(coach.PhotoUrl));
+            if (coach.PhotoUrl != null)
+                coachImage.Source = new BitmapImage(new Uri(coach.PhotoUrl, UriKind.Absolute));
 
             if (coach.Email != null)
                 emailTB.Text = coach.Email;
@@ -418,17 +417,17 @@ namespace Sports_Coaches
 
             DateTime? birthday = birthdateDP.SelectedDate;
 
-            string imageUrl;
+            string imageUrl = "";
             if (openFileDialog != null)
             {
                 string filename = openFileDialog.FileName.Substring(openFileDialog.FileName.LastIndexOf('\\') + 1);
                 string coachImage = fullName.Split(' ')[1].Unidecode() + filename.Substring(filename.LastIndexOf('.'));
-                File.Copy(openFileDialog.FileName,  "..//..//Images//" + coachImage, true);
+                File.Copy(openFileDialog.FileName, "..//..//Images//" + coachImage, true);
                 imageUrl = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, "Images\\" + coachImage);
-            }            
-            else
+            }
+            else if(!isEditForm)
             {
-                imageUrl = "Images/no-image.png";
+                imageUrl = System.IO.Path.Combine(Directory.GetParent(Environment.CurrentDirectory).Parent.FullName, "Images\\no-image.png");
             }
 
             string email = emailTB.Text;
