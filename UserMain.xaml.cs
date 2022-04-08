@@ -114,11 +114,11 @@ namespace Sports_Coaches
 
                 TextBlock ageTB = new TextBlock();
                 int age = CoachAge(coach);
-                ageTB.Text = age + " " + DeclensionGenerator.Generate(age, "рік", "роки", "років");
+                ageTB.Text = age + " " + DeclensionGenerator.Generate(age, "год", "года", "лет");
                 ageTB.FontSize = 16;
 
                 TextBlock sportTB = new TextBlock();
-                sportTB.Text = coach.Sport.Name + " - " + coach.Experience + " " + DeclensionGenerator.Generate(coach.Experience, "рік", "роки", "років");
+                sportTB.Text = coach.Sport.Name + " - " + coach.Experience + " " + DeclensionGenerator.Generate(coach.Experience, "год", "года", "лет");
                 sportTB.FontSize = 16;
 
                 TextBlock workplaceTB = new TextBlock();
@@ -145,7 +145,7 @@ namespace Sports_Coaches
                 priceTB.FontSize = 20;
 
                 TextBlock textTB = new TextBlock();
-                textTB.Text = "за тренування";
+                textTB.Text = "за тренировку";
                 textTB.FontSize = 16;
 
                 RatingBar ratingBar = new RatingBar();
@@ -188,7 +188,7 @@ namespace Sports_Coaches
             citiesCB.DisplayMemberPath = "Name";
             foreach (City city in citiesCB.Items)
             {
-                if (city.Name.Equals("Київ"))
+                if (city.Name.Equals("Киев"))
                     citiesCB.SelectedItem = city;
             }
         }

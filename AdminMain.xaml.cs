@@ -92,6 +92,7 @@ namespace Sports_Coaches
             addCoachForm.ShowDialog();
             if (addCoachForm.DialogResult == true)
             {
+                searchTB.Text = "";
                 AddCoaches(db.Coaches.Include("Sport").OrderBy(c => c.FullName));
             }
         }

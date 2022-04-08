@@ -398,7 +398,18 @@ namespace Sports_Coaches
 
         private void workplaceBTN_Click(object sender, RoutedEventArgs e)
         {
-            AddWorkPlace addWorkPlacesForm = new AddWorkPlace(addedWorkplaces, cityCB.Text);
+            City selectedCity = null;
+            foreach (City city in cityCB.Items)
+            {
+                if (city.Name.Equals(cityCB.Text))
+                {
+                    cityCB.SelectedItem = city;
+                }
+            }
+            AddWorkPlace addWorkPlacesForm;
+            if (selectedCity!=null)
+                addWorkPlacesForm = new AddWorkPlace(addedWorkplaces, selectedCity);
+            else addWorkPlacesForm = new AddWorkPlace(addedWorkplaces);
             addWorkPlacesForm.ShowDialog();
             if (addWorkPlacesForm.DialogResult == true)
             {
@@ -412,8 +423,8 @@ namespace Sports_Coaches
             string fullName = nameTB.Text;
 
             Gender gender;
-            if ((bool)(genderSP.Children[0] as RadioButton).IsChecked) gender = Gender.Чоловік;
-            else gender = Gender.Жінка;
+            if ((bool)(genderSP.Children[0] as RadioButton).IsChecked) gender = Gender.Мужчина;
+            else gender = Gender.Женщина;
 
             DateTime? birthday = birthdateDP.SelectedDate;
 

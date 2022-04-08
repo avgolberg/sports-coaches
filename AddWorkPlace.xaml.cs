@@ -15,15 +15,15 @@ namespace Sports_Coaches
         private Context db;
         private List<WorkPlace> workplaces;
         public List<WorkPlace> addedWorkplaces;
-        private string cityName;
-        public AddWorkPlace(List<WorkPlace> addedWorkplaces, string cityName="")
+        private City selectedCity;
+        public AddWorkPlace(List<WorkPlace> addedWorkplaces, City selectedCity = null)
         {
             InitializeComponent();
             db = new Context();
             workplaces = db.WorkPlaces.ToList();
             this.addedWorkplaces = addedWorkplaces;
-            if(cityName!="")
-                this.cityName = cityName;
+            if(selectedCity != null)
+                this.selectedCity = selectedCity;
             if (addedWorkplaces.Count > 0) SetSelected();
             else AddFields();
         }
@@ -40,8 +40,8 @@ namespace Sports_Coaches
                 nameCB.Text = workplace.Name;
             else nameCB.Text = "";
             nameCB.IsEditable = true;
-            if(cityName!=null)
-                nameCB.ItemsSource = db.WorkPlaces.Where(w => w.City.Name.Equals(cityName)).ToList();
+            if(selectedCity != null)
+                nameCB.ItemsSource = db.WorkPlaces.Where(w => w.City.Id.Equals(selectedCity.Id)).ToList();
             else nameCB.ItemsSource = db.WorkPlaces.ToList();
             nameCB.DisplayMemberPath = "Name";
             HintAssist.SetHint(nameCB, "Место работы");
@@ -61,7 +61,7 @@ namespace Sports_Coaches
             cityCB.Margin = new Thickness(10);
             cityCB.FontSize = 14;
             if (workplace != null)
-                cityCB.Text = workplace.City.Name;
+                cityCB.SelectedItem = workplace.City;
             else cityCB.Text = "";
             cityCB.IsEditable = true;
             cityCB.ItemsSource = db.Cities.ToList();
@@ -85,10 +85,18 @@ namespace Sports_Coaches
             TextBox addressTB = parentSP.Children[1] as TextBox;
             ComboBox cityCB = parentSP.Children[2] as ComboBox;
 
-            if (workPlace.Address!=null && workPlace.Address.Length>0)
-                addressTB.Text = workPlace.Address;
-            if (workPlace.City!=null && workPlace.City.Name.Length > 0)
-                cityCB.Text = workPlace.City.Name;
+            if (workPlace != null)
+            {
+                if (workPlace.Address != null && workPlace.Address.Length > 0)
+                    addressTB.Text = workPlace.Address;
+                if (workPlace.City != null && workPlace.City.Name.Length > 0)
+                    cityCB.SelectedItem = workPlace.City;
+            }
+            else
+            {
+                addressTB.Text = "";
+                cityCB.Text = "";
+            }
         }
 
         private void SetSelected()
@@ -107,10 +115,13 @@ namespace Sports_Coaches
                 ComboBox nameTB = sp.Children[0] as ComboBox;
                 TextBox addressTB = sp.Children[1] as TextBox;
                 ComboBox cityCB = sp.Children[2] as ComboBox;
+                City city = cityCB.SelectedItem as City;
 
-                if (addedWorkplaces.Where(a => a.Name.Equals(nameTB.Text) && a.Address.Equals(addressTB.Text) && a.City.Equals(db.Cities.Where(c => c.Name.Equals(cityCB.Text)).FirstOrDefault())).Any())
+                if (addedWorkplaces.Where(a => a.Name.Equals(nameTB.Text) && a.Address.Equals(addressTB.Text) && a.City.Id.Equals(city.Id)).Any())
                 {
-                    addedWorkplaces.Add(workplaces.Where(a => a.Name.Equals(nameTB.Text) && a.Address.Equals(addressTB.Text) && a.City.Equals(db.Cities.Where(c => c.Name.Equals(cityCB.Text)).FirstOrDefault())).FirstOrDefault());
+                    WorkPlace workPlace = addedWorkplaces.Where(a => a.Name.Equals(nameTB.Text) && a.Address.Equals(addressTB.Text) && a.City.Id.Equals(city.Id)).FirstOrDefault();
+                    db.WorkPlaces.Attach(workPlace);
+                    addedWorkplaces.Add(workPlace);
                 }
                 else
                 {
@@ -118,8 +129,8 @@ namespace Sports_Coaches
                     {
                         if (!db.Cities.Where(c => c.Name.Equals(cityCB.Text)).Any())
                         {
-                            City city = new City() { Name = cityCB.Text };
-                            db.Cities.Add(city);
+                            City newCity = new City() { Name = cityCB.Text };
+                            db.Cities.Add(newCity);
                         }
                         WorkPlace workplace = new WorkPlace() { Name = nameTB.Text, Address = addressTB.Text, City = db.Cities.Where(c => c.Name.Equals(cityCB.Text)).FirstOrDefault() };
                         addedWorkplaces.Add(workplace);

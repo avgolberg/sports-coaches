@@ -10,8 +10,8 @@ namespace Sports_Coaches.Models
 {
     public enum Gender
     {
-        Чоловік,
-        Жінка
+        Мужчина,
+        Женщина
     }
     public class Coach
     {
